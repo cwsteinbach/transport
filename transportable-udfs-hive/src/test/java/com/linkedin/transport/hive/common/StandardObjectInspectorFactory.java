@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -34,7 +34,6 @@ public class StandardObjectInspectorFactory {
   public static ObjectInspector struct(ObjectInspector... fieldObjectInspectors) {
     return ObjectInspectorFactory.getStandardStructObjectInspector(
         IntStream.range(0, fieldObjectInspectors.length).mapToObj(i -> "f" + i).collect(Collectors.toList()),
-        Arrays.asList(fieldObjectInspectors)
-    );
+        Arrays.asList(fieldObjectInspectors));
   }
 }

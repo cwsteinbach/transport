@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -100,22 +100,14 @@ public abstract class AbstractTypeFactory<T> {
       List<TypeSignature> parameters = typeSignatureTree.getParameters();
       if (concreteType == ConcreteTypeSignatureElement.ARRAY) {
         assert parameters.size() == 1;
-        return
-            createArrayType(
-                createType(parameters.get(0), boundVariables)
-            );
+        return createArrayType(createType(parameters.get(0), boundVariables));
       } else if (concreteType == ConcreteTypeSignatureElement.MAP) {
         assert parameters.size() == 2;
-        return
-            createMapType(
-                createType(parameters.get(0), boundVariables),
-                createType(parameters.get(1), boundVariables)
-            );
+        return createMapType(createType(parameters.get(0), boundVariables),
+            createType(parameters.get(1), boundVariables));
       } else if (concreteType == ConcreteTypeSignatureElement.STRUCT) {
-        return createStructType(
-            typeSignatureTree.getParameterNames(),
-            parameters.stream().map(p -> createType(p, boundVariables)).collect(Collectors.toList())
-        );
+        return createStructType(typeSignatureTree.getParameterNames(),
+            parameters.stream().map(p -> createType(p, boundVariables)).collect(Collectors.toList()));
       } else {
         throw new RuntimeException("Unrecognized type signature element: " + concreteType.name());
       }

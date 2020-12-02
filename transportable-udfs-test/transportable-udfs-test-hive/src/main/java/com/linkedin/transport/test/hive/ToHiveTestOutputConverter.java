@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -23,8 +23,7 @@ public class ToHiveTestOutputConverter implements ToPlatformTestOutputConverter 
    */
   @Override
   public Object getArrayData(List<Object> array, TestType elementType) {
-    return array.stream()
-        .map(e -> getHiveTestOutputInComplexTypes(e, elementType))
+    return array.stream().map(e -> getHiveTestOutputInComplexTypes(e, elementType))
         .collect(Collectors.joining(",", "[", "]"));
   }
 
@@ -33,11 +32,8 @@ public class ToHiveTestOutputConverter implements ToPlatformTestOutputConverter 
    */
   @Override
   public Object getMapData(Map<Object, Object> map, TestType mapKeyType, TestType mapValueType) {
-    return map.entrySet()
-        .stream()
-        .map(x -> getHiveTestOutputInComplexTypes(x.getKey(), mapKeyType) + ":" + getHiveTestOutputInComplexTypes(
-            x.getValue(), mapValueType))
-        .collect(Collectors.joining(",", "{", "}"));
+    return map.entrySet().stream().map(x -> getHiveTestOutputInComplexTypes(x.getKey(), mapKeyType) + ":"
+        + getHiveTestOutputInComplexTypes(x.getValue(), mapValueType)).collect(Collectors.joining(",", "{", "}"));
   }
 
   /**

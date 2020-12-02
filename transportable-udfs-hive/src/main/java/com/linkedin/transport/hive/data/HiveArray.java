@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -48,8 +48,8 @@ public class HiveArray extends HiveData implements StdArray {
           ((HiveData) e).getUnderlyingDataForObjectInspector(_elementObjectInspector));
       _isObjectModified = true;
     } else {
-      throw new RuntimeException("Attempt to modify an immutable Hive object of type: "
-          + _listObjectInspector.getClass());
+      throw new RuntimeException(
+          "Attempt to modify an immutable Hive object of type: " + _listObjectInspector.getClass());
     }
   }
 

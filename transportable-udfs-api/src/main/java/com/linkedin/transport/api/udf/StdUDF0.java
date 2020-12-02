@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -45,7 +45,7 @@ public abstract class StdUDF0<O extends StdData> extends StdUDF {
    * @return an array of file paths to be localized at the worker nodes.
    */
   public String[] getRequiredFiles() {
-    return new String[]{};
+    return new String[] {};
   }
 
   protected final int numberOfArguments() {

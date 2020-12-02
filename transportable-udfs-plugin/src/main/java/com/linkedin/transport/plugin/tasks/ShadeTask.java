@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -123,7 +123,7 @@ public class ShadeTask extends ShadowJar {
     // Exclude source files
     exclude("**/*.java");
     // Do not shade classes we have excluded
-    _doNotShade = ImmutableList.<String>builder().addAll(_doNotShade).addAll(getExcludes()).build();
+    _doNotShade = ImmutableList.<String> builder().addAll(_doNotShade).addAll(getExcludes()).build();
     // Relocate base on the above restrictions
     super.relocate(new SimpleRelocator(null, _shadePrefix + '/', ImmutableList.of("**"), _doNotShade) {
       public boolean canRelocatePath(RelocatePathContext context) {

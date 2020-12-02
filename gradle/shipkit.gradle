@@ -27,7 +27,12 @@ allprojects {
         userOrg = 'linkedin-transport'
         name = 'transport'
         licenses = ['BSD 2-Clause']
-        labels = ['transport', 'UDF', 'user defined functions', 'portable']
+        labels = [
+          'transport',
+          'UDF',
+          'user defined functions',
+          'portable'
+        ]
       }
     }
   }

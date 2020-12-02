@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -43,8 +43,8 @@ public class HiveTypeSystem extends AbstractTypeSystem<ObjectInspector> {
 
   @Override
   protected List<ObjectInspector> getStructFieldTypes(ObjectInspector dataType) {
-    return ((StructObjectInspector) dataType).getAllStructFieldRefs().stream().map(r -> r.getFieldObjectInspector()).
-        collect(Collectors.toList());
+    return ((StructObjectInspector) dataType).getAllStructFieldRefs().stream().map(r -> r.getFieldObjectInspector())
+        .collect(Collectors.toList());
   }
 
   @Override
@@ -149,21 +149,16 @@ public class HiveTypeSystem extends AbstractTypeSystem<ObjectInspector> {
 
   @Override
   protected ObjectInspector createMapType(ObjectInspector keyType, ObjectInspector valueType) {
-    return ObjectInspectorFactory.getStandardMapObjectInspector(
-        keyType,
-        valueType
-    );
+    return ObjectInspectorFactory.getStandardMapObjectInspector(keyType, valueType);
   }
 
   @Override
   protected ObjectInspector createStructType(List<String> fieldNames, List<ObjectInspector> fieldTypes) {
     if (fieldNames != null) {
-      return ObjectInspectorFactory.getStandardStructObjectInspector(
-          fieldNames, fieldTypes);
+      return ObjectInspectorFactory.getStandardStructObjectInspector(fieldNames, fieldTypes);
     } else {
       return ObjectInspectorFactory.getStandardStructObjectInspector(
-          IntStream.range(0, fieldTypes.size()).mapToObj(i -> "field" + i).collect(Collectors.toList()),
-          fieldTypes);
+          IntStream.range(0, fieldTypes.size()).mapToObj(i -> "field" + i).collect(Collectors.toList()), fieldTypes);
     }
   }
 }

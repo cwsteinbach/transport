@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -124,9 +124,8 @@ public final class CacheableObjectInspectorConverters {
             (SettableHiveDecimalObjectInspector) outputOI);
         break;
       default:
-        throw new UnsupportedOperationException(
-            "Hive internal error: conversion of " + inputOI.getTypeName() + " to " + outputOI.getTypeName()
-                + " not supported yet.");
+        throw new UnsupportedOperationException("Hive internal error: conversion of " + inputOI.getTypeName() + " to "
+            + outputOI.getTypeName() + " not supported yet.");
     }
     cacheConverter(inputOI, outputOI, c);
     return c;
@@ -160,9 +159,8 @@ public final class CacheableObjectInspectorConverters {
         c = new MapConverter(inputOI, (SettableMapObjectInspector) outputOI);
         break;
       default:
-        throw new UnsupportedOperationException(
-            "Hive internal error: conversion of " + inputOI.getTypeName() + " to " + outputOI.getTypeName()
-                + " not supported yet.");
+        throw new UnsupportedOperationException("Hive internal error: conversion of " + inputOI.getTypeName() + " to "
+            + outputOI.getTypeName() + " not supported yet.");
     }
     cacheConverter(inputOI, outputOI, c);
     return c;
@@ -189,9 +187,8 @@ public final class CacheableObjectInspectorConverters {
         outputElementOI = outputOI.getListElementObjectInspector();
         elementConverter = getConverter(inputElementOI, outputElementOI);
       } else if (!(inputOI instanceof VoidObjectInspector)) {
-        throw new UnsupportedOperationException(
-            "Hive internal error: conversion of " + inputOI.getTypeName() + " to " + outputOI.getTypeName()
-                + "not supported yet.");
+        throw new UnsupportedOperationException("Hive internal error: conversion of " + inputOI.getTypeName() + " to "
+            + outputOI.getTypeName() + "not supported yet.");
       }
     }
 
@@ -242,9 +239,8 @@ public final class CacheableObjectInspectorConverters {
               outputFields.get(f).getFieldObjectInspector()));
         }
       } else if (!(inputOI instanceof VoidObjectInspector)) {
-        throw new UnsupportedOperationException(
-            "Hive internal error: conversion of " + inputOI.getTypeName() + " to " + outputOI.getTypeName()
-                + "not supported yet.");
+        throw new UnsupportedOperationException("Hive internal error: conversion of " + inputOI.getTypeName() + " to "
+            + outputOI.getTypeName() + "not supported yet.");
       }
     }
 
@@ -299,9 +295,8 @@ public final class CacheableObjectInspectorConverters {
         keyConverter = getConverter(inputKeyOI, outputKeyOI);
         valueConverter = getConverter(inputValueOI, outputValueOI);
       } else if (!(inputOI instanceof VoidObjectInspector)) {
-        throw new UnsupportedOperationException(
-            "Hive internal error: conversion of " + inputOI.getTypeName() + " to " + outputOI.getTypeName()
-                + "not supported yet.");
+        throw new UnsupportedOperationException("Hive internal error: conversion of " + inputOI.getTypeName() + " to "
+            + outputOI.getTypeName() + "not supported yet.");
       }
     }
 

@@ -17,10 +17,10 @@ task verifyPrestoJvmRequirements(type:Exec) {
     throw new GradleException("Java version not defined")
   }
   JavaVersion version = JavaVersion.parse(javaVersion)
-  if (!(version.getMajor() == 8 && version.getUpdate().isPresent() && version.getUpdate().getAsInt() >= 151)
-      || (version.getMajor() >= 9)) {
-    throw new GradleException(String.format("Presto requires Java 8u151+ (found %s)", version))
-  }
+  // if (!(version.getMajor() == 8 && version.getUpdate().isPresent() && version.getUpdate().getAsInt() >= 151)
+  //     || (version.getMajor() >= 12)) {
+  //   throw new GradleException(String.format("Presto requires Java 8u151+ (found %s)", version))
+  // }
 }
 
 dependencies {

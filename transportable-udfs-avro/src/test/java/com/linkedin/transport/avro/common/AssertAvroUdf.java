@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -29,8 +29,7 @@ public class AssertAvroUdf {
   public static void assertFunction(StdUdfWrapper udf, Schema[] schemas, Object[] arguments, Object expected) {
     udf.initialize(schemas);
     Object result = udf.evaluate(IntStream.range(0, arguments.length)
-        .mapToObj(i -> getAvroObject(arguments[i], schemas[i]))
-        .toArray(Object[]::new));
+        .mapToObj(i -> getAvroObject(arguments[i], schemas[i])).toArray(Object[]::new));
     Assert.assertEquals(getJavaObject(result), expected);
   }
 
@@ -69,8 +68,7 @@ public class AssertAvroUdf {
     if (avroObject instanceof Utf8) {
       javaObject = avroObject.toString();
     } else if (avroObject instanceof GenericArray) {
-      javaObject = ((GenericArray<Object>) avroObject).stream()
-          .map(element -> getJavaObject(element))
+      javaObject = ((GenericArray<Object>) avroObject).stream().map(element -> getJavaObject(element))
           .collect(Collectors.toList());
     } else if (avroObject instanceof Map) {
       javaObject = new LinkedHashMap<>();

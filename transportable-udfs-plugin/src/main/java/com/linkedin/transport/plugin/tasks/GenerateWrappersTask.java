@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -67,12 +67,12 @@ public class GenerateWrappersTask extends DefaultTask {
     WrapperGenerator generator;
     try {
       generator = (WrapperGenerator) Class.forName(_generatorClass.get()).getConstructor().newInstance();
-    } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+    } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException
+        | InvocationTargetException e) {
       throw new RuntimeException("Could not create object of class: " + _generatorClass.get(), e);
     }
-    generator.generateWrappers(
-        new WrapperGeneratorContext(getUDFMetadataFile(_inputClassesDirs.get()), _sourcesOutputDir.getAsFile().get(),
-            _resourcesOutputDir.getAsFile().get()));
+    generator.generateWrappers(new WrapperGeneratorContext(getUDFMetadataFile(_inputClassesDirs.get()),
+        _sourcesOutputDir.getAsFile().get(), _resourcesOutputDir.getAsFile().get()));
   }
 
   /**
@@ -81,8 +81,7 @@ public class GenerateWrappersTask extends DefaultTask {
    */
   private File getUDFMetadataFile(FileCollection inputClassesDirs) {
     Optional<File> udfMetadataFile = StreamSupport.stream(inputClassesDirs.spliterator(), true)
-        .map(folder -> folder.toPath().resolve("META-INF/transport-udfs/metadata.json").toFile())
-        .filter(File::exists)
+        .map(folder -> folder.toPath().resolve("META-INF/transport-udfs/metadata.json").toFile()).filter(File::exists)
         .findFirst();
 
     if (udfMetadataFile.isPresent()) {

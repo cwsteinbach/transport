@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -21,10 +21,7 @@ public class MapFromTwoArraysFunction extends StdUDF2<StdArray, StdArray, StdMap
 
   @Override
   public List<String> getInputParameterSignatures() {
-    return ImmutableList.of(
-        "array(K)",
-        "array(V)"
-    );
+    return ImmutableList.of("array(K)", "array(V)");
   }
 
   @Override

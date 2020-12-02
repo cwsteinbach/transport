@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -122,9 +122,8 @@ public class HiveTester implements SqlStdTester {
       if (handle.hasResultSet()) {
         RowSet rowSet = _client.fetchResults(handle);
         if (rowSet.numRows() > 1 || rowSet.numColumns() > 1) {
-          throw new RuntimeException(
-              "Expected 1 row and 1 column in query output. Received " + rowSet.numRows() + " rows and "
-                  + rowSet.numColumns() + " columns.\nQuery: \"" + query + "\"");
+          throw new RuntimeException("Expected 1 row and 1 column in query output. Received " + rowSet.numRows()
+              + " rows and " + rowSet.numColumns() + " columns.\nQuery: \"" + query + "\"");
         }
         Object[] row = rowSet.iterator().next();
         Object result = row[0];

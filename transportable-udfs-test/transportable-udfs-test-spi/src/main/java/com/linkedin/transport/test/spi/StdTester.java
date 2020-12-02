@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -20,7 +20,8 @@ public interface StdTester {
   /**
    * Registers UDFs the user wants to test with the underlying test framework
    */
-  void setup(Map<Class<? extends TopLevelStdUDF>, List<Class<? extends StdUDF>>> topLevelStdUDFClassesAndImplementations);
+  void setup(
+      Map<Class<? extends TopLevelStdUDF>, List<Class<? extends StdUDF>>> topLevelStdUDFClassesAndImplementations);
 
   /**
    * Verifies that the output and output type of the function call matches the provided expected values in the {@link TestCase}

@@ -1,17 +1,20 @@
 ![logo](docs/logo.png)
+
 # Transport UDFs
 
 **Transport** is a framework for writing performant user-defined
 functions (UDFs) that are portable across a variety of engines
-including [Apache Spark](https://spark.apache.org/), [Apache Hive](https://hive.apache.org/), and
-[Presto](https://prestodb.io/). Transport UDFs are also
-capable of directly processing data stored in serialization formats such as
-Apache Avro. With Transport, developers only need to implement their UDF
-logic once using the Transport API. Transport then takes care of
+including [Apache Spark](https://spark.apache.org/), [Apache
+Hive](https://hive.apache.org/), and
+[Presto](https://prestodb.io/). Transport UDFs are also capable of
+directly processing data stored in serialization formats such as
+Apache Avro. With Transport, developers only need to implement their
+UDF logic once using the Transport API. Transport then takes care of
 translating the UDF to native UDF version targeted at various engines
 or formats. Currently, Transport is capable of generating
 engine-artifacts for Spark, Hive, and Presto, and format-artifacts for
-Avro. Further details on Transport can be found in this [LinkedIn Engineering blog post](https://engineering.linkedin.com/blog/2018/11/using-translatable-portable-UDFs).
+Avro. Further details on Transport can be found in this [LinkedIn
+Engineering blog post](https://engineering.linkedin.com/blog/2018/11/using-translatable-portable-UDFs).
 
 ## Documentation
 
@@ -19,15 +22,18 @@ Avro. Further details on Transport can be found in this [LinkedIn Engineering bl
   - Transport release notes: [docs/release-notes.md](/docs/release-notes.md)
   - Contributing: [#contributing](#contributing)
 - User guides
-  - Transport UDFs API: [docs/transport-udfs-api.md](/docs/transport-udfs-api.md)
-  - Authoring Transport UDFs: [docs/authoring-transport-udfs.md](/docs/authoring-transport-udfs.md)
-  - Using Transport UDFs: [docs/using-transport-udfs.md](/docs/using-transport-udfs.md)
-  - Writing Tests for Transport UDFs: [docs/writing-tests.md](/docs/writing-tests.md)
+  - Transport UDFs API:
+    [docs/transport-udfs-api.md](/docs/transport-udfs-api.md)
+  - Authoring Transport UDFs:
+    [docs/authoring-transport-udfs.md](/docs/authoring-transport-udfs.md)
+  - Using Transport UDFs:
+    [docs/using-transport-udfs.md](/docs/using-transport-udfs.md)
+  - Writing Tests for Transport UDFs:
+    [docs/writing-tests.md](/docs/writing-tests.md)
   - FAQ: [docs/faq.md](/docs/faq.md)
 - Developer guides
   - How the Transport Plugin works: [TODO]
   - How the Transport Test Framework works: [TODO]
-
 
 ## Example
 
@@ -90,45 +96,64 @@ objects that conform to a given data type (such as a map whose keys
 are of the type of elements in the first array and values are of the
 type of elements in the second array). `StdUDF2` is an abstract class
 to express a UDF that takes two parameters. It is parametrized by the
-UDF input types and the UDF output type. Please consult the [Transport UDFs API](/docs/transport-udfs-api.md) for more details and examples.
+UDF input types and the UDF output type. Please consult the [Transport
+UDFs API](/docs/transport-udfs-api.md) for more details and examples.
 
 ## How to Build
+
 Clone the repository:
+
 ```bash
 git clone https://github.com/linkedin/transport.git
 ```
+
 Change directory to `transport`:
+
 ```bash
 cd transport
 ```
 
 Build:
+
 ```bash
 ./gradlew build
 ```
 
 Please note that this project requires Java `1.8.0_151` or higher.
-Either set `JAVA_HOME` to the home of an appropriate version and then use `./gradlew build` as described above, or set the `org.gradle.java.home` gradle property to the Java home of an appropriate version as below:
+Either set `JAVA_HOME` to the home of an appropriate version and then
+use `./gradlew build` as described above, or set the
+`org.gradle.java.home` gradle property to the Java home of an
+appropriate version as below:
+
 ```bash
 ./gradlew -Dorg.gradle.java.home=/path/to/java/home build
 ```
 
 ## How to Use
-The project under the directory [`transportable-udfs-examples`](transportable-udfs-examples) is a standalone Gradle project
-that shows how to setup a project that uses the Transport UDFs framework to write Transportable UDFs.
-You can model your project after that standalone project. It implements a number of [example
-UDFs](transportable-udfs-examples/transportable-udfs-example-udfs) to showcase different features and aspects of the API.
- Basically, you need to check out three components:
 
-* [UDF examples code](transportable-udfs-examples/transportable-udfs-example-udfs/src/main/java/com/linkedin/transport/examples)
-to familiarize yourself with the API, and how to write new UDFs. 
+The project under the directory
+[`transportable-udfs-examples`](transportable-udfs-examples) is a
+standalone Gradle project that shows how to setup a project that uses
+the Transport UDFs framework to write Transportable UDFs. You can
+model your project after that standalone project. It implements a
+number of [example
+UDFs](transportable-udfs-examples/transportable-udfs-example-udfs) to
+showcase different features and aspects of the API. Basically, you
+need to check out three components:
 
-* [Test code](transportable-udfs-examples/transportable-udfs-example-udfs/src/test/java/com/linkedin/transport/examples)
- to find out how to write UDF tests in a unified testing API, but have the framework test them on multiple platforms.
+- [UDF examples
+  code](transportable-udfs-examples/transportable-udfs-example-udfs/src/main/java/com/linkedin/transport/examples)
+  to familiarize yourself with the API, and how to write new UDFs.
 
-* Root [`build.gradle`](transportable-udfs-examples/build.gradle) file
-to find out how to apply the `transport` plugin, which enables generating Hive, Spark, and Presto UDFs out of
-the transportable UDFs you define once you build your project. To see that in action:
+- [Test
+  code](transportable-udfs-examples/transportable-udfs-example-udfs/src/test/java/com/linkedin/transport/examples)
+  to find out how to write UDF tests in a unified testing API, but
+  have the framework test them on multiple platforms.
+
+- Root [`build.gradle`](transportable-udfs-examples/build.gradle) file
+  to find out how to apply the `transport` plugin, which enables
+  generating Hive, Spark, and Presto UDFs out of the transportable
+  UDFs you define once you build your project. To see that in action:
 
 Change directory to `transportable-udfs-examples`:
 
@@ -142,8 +167,10 @@ Build `transportable-udfs-examples`:
 gradle build
 ```
 
-You will notice that the build process generates some code. This is the platform-specific versions of the UDFs.
-Once the build succeeds, check out the output artifacts: 
+You will notice that the build process generates some code. This is
+the platform-specific versions of the UDFs.
+
+Once the build succeeds, check out the output artifacts:
 
 ```bash
 ls transportable-udfs-example-udfs/build/libs/
@@ -158,37 +185,49 @@ transportable-udfs-example-udfs-spark.jar
 transportable-udfs-example-udfs.jar
 ```
 
-That is it! While only one version of the UDFs is implemented, multiple jars are produced upon building the project.
-Each of those jars uses native platform APIs and data models to implement the UDFs. So from an execution engine's perspective,
-there is no data transformation needed for interoperability or portability. Only suitable classes are used for each engine.
+That is it! While only one version of the UDFs is implemented,
+multiple jars are produced upon building the project. Each of those
+jars uses native platform APIs and data models to implement the
+UDFs. So from an execution engine's perspective, there is no data
+transformation needed for interoperability or portability. Only
+suitable classes are used for each engine.
 
-To call those jars from your SQL engine (i.e., Hive, Spark, or Presto), the standard process for deploying UDF jars is followed
-for each engine. For example, in Hive, you add the jar to the classpath using the `ADD JAR` statement,
- and register the UDF using `CREATE FUNCTION` statement.
-In Presto, the jar is deployed to the `plugin` directory. However, a small patch is required for the Presto
-engine to recognize the jar as a plugin, since the generated Presto UDFs implement the `SqlScalarFunction` API, 
-which is currently not part of Presto's SPI architecture. You can find the patch [here](transportable-udfs-documentation/transport-udfs-presto.patch) and apply it
- before deploying your UDFs jar to the Presto engine.
- 
+To call those jars from your SQL engine (i.e., Hive, Spark, or
+Presto), the standard process for deploying UDF jars is followed for
+each engine. For example, in Hive, you add the jar to the classpath
+using the `ADD JAR` statement, and register the UDF using `CREATE FUNCTION` statement. In Presto, the jar is deployed to the `plugin`
+directory. However, a small patch is required for the Presto engine to
+recognize the jar as a plugin, since the generated Presto UDFs
+implement the `SqlScalarFunction` API, which is currently not part of
+Presto's SPI architecture. You can find the patch
+[here](transportable-udfs-documentation/transport-udfs-presto.patch)
+and apply it before deploying your UDFs jar to the Presto engine.
+
 ## Contributing
-The project is under active development and we welcome contributions of different forms:
 
-* Contributing new general-purpose Transport UDFs (e.g., Machine Learning UDFs, Spatial UDFs, Linear Algebra UDFs, etc).
+The project is under active development and we welcome contributions
+of different forms:
 
-* Contributing new platform support.
+- Contributing new general-purpose Transport UDFs (e.g., Machine
+  Learning UDFs, Spatial UDFs, Linear Algebra UDFs, etc).
 
-* Contributing a framework for new types of UDFs, e.g., aggregate UDFs (UDAFs), or table functions (UDTFs).
+- Contributing new platform support.
+
+- Contributing a framework for new types of UDFs, e.g., aggregate UDFs
+  (UDAFs), or table functions (UDTFs).
 
 Please take a look at the [Contribution Agreement](CONTRIBUTING.md).
 
 ## Questions?
-Please send any questions or discussion topics to [transport-udfs@googlegroups.com](mailto:transport-udfs@googlegroups.com)
+
+Please send any questions or discussion topics to
+[transport-udfs@googlegroups.com](mailto:transport-udfs@googlegroups.com)
 
 ## License
 
     BSD 2-CLAUSE LICENSE
 
-    Copyright 2018 LinkedIn Corporation.
+    Copyright 2018-2020 LinkedIn Corporation.
     All Rights Reserved.
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions are

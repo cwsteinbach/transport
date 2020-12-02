@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -62,8 +62,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableBooleanObjectInspector outputOI;
 
-    public BooleanConverter(PrimitiveObjectInspector inputOI,
-        SettableBooleanObjectInspector outputOI) {
+    public BooleanConverter(PrimitiveObjectInspector inputOI, SettableBooleanObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -75,8 +74,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
       }
       Object r = outputOI.create(false);
       try {
-        return outputOI.set(r, PrimitiveObjectInspectorUtils.getBoolean(input,
-            inputOI));
+        return outputOI.set(r, PrimitiveObjectInspectorUtils.getBoolean(input, inputOI));
       } catch (NumberFormatException e) {
         return null;
       }
@@ -90,8 +88,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableByteObjectInspector outputOI;
 
-    public ByteConverter(PrimitiveObjectInspector inputOI,
-        SettableByteObjectInspector outputOI) {
+    public ByteConverter(PrimitiveObjectInspector inputOI, SettableByteObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -103,8 +100,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
       }
       Object r = outputOI.create((byte) 0);
       try {
-        return outputOI.set(r, PrimitiveObjectInspectorUtils.getByte(input,
-            inputOI));
+        return outputOI.set(r, PrimitiveObjectInspectorUtils.getByte(input, inputOI));
       } catch (NumberFormatException e) {
         return null;
       }
@@ -118,8 +114,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableShortObjectInspector outputOI;
 
-    public ShortConverter(PrimitiveObjectInspector inputOI,
-        SettableShortObjectInspector outputOI) {
+    public ShortConverter(PrimitiveObjectInspector inputOI, SettableShortObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -131,8 +126,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
       }
       Object r = outputOI.create((short) 0);
       try {
-        return outputOI.set(r, PrimitiveObjectInspectorUtils.getShort(input,
-            inputOI));
+        return outputOI.set(r, PrimitiveObjectInspectorUtils.getShort(input, inputOI));
       } catch (NumberFormatException e) {
         return null;
       }
@@ -146,8 +140,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableIntObjectInspector outputOI;
 
-    public IntConverter(PrimitiveObjectInspector inputOI,
-        SettableIntObjectInspector outputOI) {
+    public IntConverter(PrimitiveObjectInspector inputOI, SettableIntObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -159,8 +152,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
       }
       Object r = outputOI.create(0);
       try {
-        return outputOI.set(r, PrimitiveObjectInspectorUtils.getInt(input,
-            inputOI));
+        return outputOI.set(r, PrimitiveObjectInspectorUtils.getInt(input, inputOI));
       } catch (NumberFormatException e) {
         return null;
       }
@@ -174,8 +166,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableLongObjectInspector outputOI;
 
-    public LongConverter(PrimitiveObjectInspector inputOI,
-        SettableLongObjectInspector outputOI) {
+    public LongConverter(PrimitiveObjectInspector inputOI, SettableLongObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -187,8 +178,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
       }
       Object r = outputOI.create(0);
       try {
-        return outputOI.set(r, PrimitiveObjectInspectorUtils.getLong(input,
-            inputOI));
+        return outputOI.set(r, PrimitiveObjectInspectorUtils.getLong(input, inputOI));
       } catch (NumberFormatException e) {
         return null;
       }
@@ -202,8 +192,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableFloatObjectInspector outputOI;
 
-    public FloatConverter(PrimitiveObjectInspector inputOI,
-        SettableFloatObjectInspector outputOI) {
+    public FloatConverter(PrimitiveObjectInspector inputOI, SettableFloatObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -215,8 +204,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
       }
       Object r = outputOI.create(0);
       try {
-        return outputOI.set(r, PrimitiveObjectInspectorUtils.getFloat(input,
-            inputOI));
+        return outputOI.set(r, PrimitiveObjectInspectorUtils.getFloat(input, inputOI));
       } catch (NumberFormatException e) {
         return null;
       }
@@ -230,8 +218,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableDoubleObjectInspector outputOI;
 
-    public DoubleConverter(PrimitiveObjectInspector inputOI,
-        SettableDoubleObjectInspector outputOI) {
+    public DoubleConverter(PrimitiveObjectInspector inputOI, SettableDoubleObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -243,8 +230,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
       }
       Object r = outputOI.create(0);
       try {
-        return outputOI.set(r, PrimitiveObjectInspectorUtils.getDouble(input,
-            inputOI));
+        return outputOI.set(r, PrimitiveObjectInspectorUtils.getDouble(input, inputOI));
       } catch (NumberFormatException e) {
         return null;
       }
@@ -255,8 +241,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableDateObjectInspector outputOI;
 
-    public DateConverter(PrimitiveObjectInspector inputOI,
-        SettableDateObjectInspector outputOI) {
+    public DateConverter(PrimitiveObjectInspector inputOI, SettableDateObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -266,8 +251,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
         return null;
       }
       Object r = outputOI.create(new Date(0));
-      return outputOI.set(r, PrimitiveObjectInspectorUtils.getDate(input,
-          inputOI));
+      return outputOI.set(r, PrimitiveObjectInspectorUtils.getDate(input, inputOI));
     }
   }
 
@@ -275,8 +259,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableTimestampObjectInspector outputOI;
 
-    public TimestampConverter(PrimitiveObjectInspector inputOI,
-        SettableTimestampObjectInspector outputOI) {
+    public TimestampConverter(PrimitiveObjectInspector inputOI, SettableTimestampObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -286,8 +269,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
         return null;
       }
       Object r = outputOI.create(new Timestamp(0));
-      return outputOI.set(r, PrimitiveObjectInspectorUtils.getTimestamp(input,
-          inputOI));
+      return outputOI.set(r, PrimitiveObjectInspectorUtils.getTimestamp(input, inputOI));
     }
   }
 
@@ -296,8 +278,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableHiveDecimalObjectInspector outputOI;
 
-    public HiveDecimalConverter(PrimitiveObjectInspector inputOI,
-        SettableHiveDecimalObjectInspector outputOI) {
+    public HiveDecimalConverter(PrimitiveObjectInspector inputOI, SettableHiveDecimalObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -317,8 +298,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableBinaryObjectInspector outputOI;
 
-    public BinaryConverter(PrimitiveObjectInspector inputOI,
-        SettableBinaryObjectInspector outputOI) {
+    public BinaryConverter(PrimitiveObjectInspector inputOI, SettableBinaryObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -328,9 +308,8 @@ public class CacheablePrimitiveObjectInspectorConverter {
       if (input == null) {
         return null;
       }
-      Object r = outputOI.create(new byte[]{});
-      return outputOI.set(r, PrimitiveObjectInspectorUtils.getBinary(input,
-          inputOI));
+      Object r = outputOI.create(new byte[] {});
+      return outputOI.set(r, PrimitiveObjectInspectorUtils.getBinary(input, inputOI));
     }
   }
 
@@ -338,8 +317,8 @@ public class CacheablePrimitiveObjectInspectorConverter {
    * A helper class to convert any primitive to Text.
    */
   public static class TextConverter implements Converter {
-    private static byte[] trueBytes = {'T', 'R', 'U', 'E'};
-    private static byte[] falseBytes = {'F', 'A', 'L', 'S', 'E'};
+    private static byte[] trueBytes = { 'T', 'R', 'U', 'E' };
+    private static byte[] falseBytes = { 'F', 'A', 'L', 'S', 'E' };
     private final PrimitiveObjectInspector inputOI;
     private final ByteStream.Output out = new ByteStream.Output();
 
@@ -358,8 +337,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
         case VOID:
           return null;
         case BOOLEAN:
-          t.set(((BooleanObjectInspector) inputOI).get(input) ? trueBytes
-              : falseBytes);
+          t.set(((BooleanObjectInspector) inputOI).get(input) ? trueBytes : falseBytes);
           return t;
         case BYTE:
           out.reset();
@@ -398,16 +376,14 @@ public class CacheablePrimitiveObjectInspectorConverter {
           // when converting from char, the value should be stripped of any trailing spaces.
           if (inputOI.preferWritable()) {
             // char text value is already stripped of trailing space
-            t.set(((HiveCharObjectInspector) inputOI).getPrimitiveWritableObject(input)
-                .getStrippedValue());
+            t.set(((HiveCharObjectInspector) inputOI).getPrimitiveWritableObject(input).getStrippedValue());
           } else {
             t.set(((HiveCharObjectInspector) inputOI).getPrimitiveJavaObject(input).getStrippedValue());
           }
           return t;
         case VARCHAR:
           if (inputOI.preferWritable()) {
-            t.set(((HiveVarcharObjectInspector) inputOI).getPrimitiveWritableObject(input)
-                .toString());
+            t.set(((HiveVarcharObjectInspector) inputOI).getPrimitiveWritableObject(input).toString());
           } else {
             t.set(((HiveVarcharObjectInspector) inputOI).getPrimitiveJavaObject(input).toString());
           }
@@ -416,8 +392,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
           t.set(((DateObjectInspector) inputOI).getPrimitiveWritableObject(input).toString());
           return t;
         case TIMESTAMP:
-          t.set(((TimestampObjectInspector) inputOI)
-              .getPrimitiveWritableObject(input).toString());
+          t.set(((TimestampObjectInspector) inputOI).getPrimitiveWritableObject(input).toString());
           return t;
         case BINARY:
           BinaryObjectInspector binaryOI = (BinaryObjectInspector) inputOI;
@@ -459,8 +434,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableHiveVarcharObjectInspector outputOI;
 
-    public HiveVarcharConverter(PrimitiveObjectInspector inputOI,
-        SettableHiveVarcharObjectInspector outputOI) {
+    public HiveVarcharConverter(PrimitiveObjectInspector inputOI, SettableHiveVarcharObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -480,9 +454,8 @@ public class CacheablePrimitiveObjectInspectorConverter {
       HiveVarcharWritable hc = new HiveVarcharWritable();
       switch (inputOI.getPrimitiveCategory()) {
         case BOOLEAN:
-          return outputOI.set(hc,
-              ((BooleanObjectInspector) inputOI).get(input)
-                  ? new HiveVarchar("TRUE", -1) : new HiveVarchar("FALSE", -1));
+          return outputOI.set(hc, ((BooleanObjectInspector) inputOI).get(input) ? new HiveVarchar("TRUE", -1)
+              : new HiveVarchar("FALSE", -1));
         default:
           return outputOI.set(hc, PrimitiveObjectInspectorUtils.getHiveVarchar(input, inputOI));
       }
@@ -493,8 +466,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
     PrimitiveObjectInspector inputOI;
     SettableHiveCharObjectInspector outputOI;
 
-    public HiveCharConverter(PrimitiveObjectInspector inputOI,
-        SettableHiveCharObjectInspector outputOI) {
+    public HiveCharConverter(PrimitiveObjectInspector inputOI, SettableHiveCharObjectInspector outputOI) {
       this.inputOI = inputOI;
       this.outputOI = outputOI;
     }
@@ -508,8 +480,7 @@ public class CacheablePrimitiveObjectInspectorConverter {
       switch (inputOI.getPrimitiveCategory()) {
         case BOOLEAN:
           return outputOI.set(hc,
-              ((BooleanObjectInspector) inputOI).get(input)
-                  ? new HiveChar("TRUE", -1) : new HiveChar("FALSE", -1));
+              ((BooleanObjectInspector) inputOI).get(input) ? new HiveChar("TRUE", -1) : new HiveChar("FALSE", -1));
         default:
           return outputOI.set(hc, PrimitiveObjectInspectorUtils.getHiveChar(input, inputOI));
       }

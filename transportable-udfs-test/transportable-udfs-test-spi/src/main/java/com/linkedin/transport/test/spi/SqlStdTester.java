@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -30,7 +30,8 @@ public interface SqlStdTester extends StdTester {
   default void check(TestCase testCase) {
     assertFunctionCall(getSqlFunctionCallGenerator().getSqlFunctionCallString(testCase.getFunctionCall()),
         getToPlatformTestOutputConverter().convertToTestOutput(testCase.getExpectedOutput(),
-            testCase.getInferredOutputType()), getPlatformType(testCase.getExpectedOutputType()));
+            testCase.getInferredOutputType()),
+        getPlatformType(testCase.getExpectedOutputType()));
   }
 
   default Object getPlatformType(String typeSignature) {

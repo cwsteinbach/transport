@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -43,8 +43,8 @@ public class TestTypeUtils {
       return TestTypeFactory.map(inferCollectionTypeFromData(map.keySet(), "map keys"),
           inferCollectionTypeFromData(map.values(), "map values"));
     } else if (data instanceof Row) {
-      return TestTypeFactory.struct(
-          ((Row) data).getFields().stream().map(TestTypeUtils::inferTypeFromData).collect(Collectors.toList()));
+      return TestTypeFactory
+          .struct(((Row) data).getFields().stream().map(TestTypeUtils::inferTypeFromData).collect(Collectors.toList()));
     } else if (data instanceof FunctionCall) {
       return TestTypeFactory.UNKNOWN_TEST_TYPE;
     } else {
@@ -67,9 +67,8 @@ public class TestTypeUtils {
           && !expectedElementType.equals(testType)) {
         // if expected type is known, allow nulls (unknown type), function calls (output type cannot be resolved at this
         // moment) or the expected type
-        throw new IllegalArgumentException(
-            "All " + elementDescription + " must be of the same type. Expected: " + expectedElementType + " Actual: "
-                + testType);
+        throw new IllegalArgumentException("All " + elementDescription + " must be of the same type. Expected: "
+            + expectedElementType + " Actual: " + testType);
       }
     }
     return expectedElementType;

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 
 import static io.prestosql.metadata.SignatureBinder.*;
 import static io.prestosql.operator.TypeSignatureParser.*;
+
 
 public class PrestoFactory implements StdFactory {
 
@@ -135,7 +136,8 @@ public class PrestoFactory implements StdFactory {
     return metadata.getScalarFunctionImplementation(resolvedFunction);
   }
 
-  public ResolvedFunction resolveOperator(OperatorType operatorType, List<? extends Type> argumentTypes) throws OperatorNotFoundException {
+  public ResolvedFunction resolveOperator(OperatorType operatorType, List<? extends Type> argumentTypes)
+      throws OperatorNotFoundException {
     return metadata.resolveOperator(operatorType, argumentTypes);
   }
 }

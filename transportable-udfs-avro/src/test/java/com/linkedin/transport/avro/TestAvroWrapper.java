@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -50,12 +50,11 @@ public class TestAvroWrapper {
   }
 
   private Schema createSchema(String fieldName, String typeName) {
-    return new Schema.Parser().parse(
-        String.format("{\"name\": \"%s\",\"type\": %s}", fieldName, typeName));
+    return new Schema.Parser().parse(String.format("{\"name\": \"%s\",\"type\": %s}", fieldName, typeName));
   }
 
-  private void testSimpleType(String typeName, Class<? extends StdType> expectedAvroTypeClass,
-      Object testData, Class<? extends StdData> expectedDataClass) {
+  private void testSimpleType(String typeName, Class<? extends StdType> expectedAvroTypeClass, Object testData,
+      Class<? extends StdData> expectedDataClass) {
     Schema avroSchema = createSchema(String.format("\"%s\"", typeName));
 
     StdType stdType = AvroWrapper.createStdType(avroSchema);
@@ -111,14 +110,9 @@ public class TestAvroWrapper {
 
   @Test
   public void testEnumType() {
-    Schema field1 = createSchema("field1", ""
-        + "\"enum\","
-        + "\"name\":\"SampleEnum\","
-        + "\"doc\":\"\","
-        + "\"symbols\":[\"A\",\"B\"]");
-    Schema structSchema = Schema.createRecord(ImmutableList.of(
-        new Schema.Field("field1", field1, null, null)
-    ));
+    Schema field1 = createSchema("field1",
+        "" + "\"enum\"," + "\"name\":\"SampleEnum\"," + "\"doc\":\"\"," + "\"symbols\":[\"A\",\"B\"]");
+    Schema structSchema = Schema.createRecord(ImmutableList.of(new Schema.Field("field1", field1, null, null)));
 
     GenericRecord record1 = new GenericData.Record(structSchema);
     record1.put("field1", "A");
@@ -173,10 +167,8 @@ public class TestAvroWrapper {
   public void testRecordType() {
     Schema field1 = createSchema("field1", "\"int\"");
     Schema field2 = createSchema("field2", "\"double\"");
-    Schema structSchema = Schema.createRecord(ImmutableList.of(
-        new Schema.Field("field1", field1, null, null),
-        new Schema.Field("field2", field2, null, null)
-    ));
+    Schema structSchema = Schema.createRecord(ImmutableList.of(new Schema.Field("field1", field1, null, null),
+        new Schema.Field("field2", field2, null, null)));
 
     StdType stdStructType = AvroWrapper.createStdType(structSchema);
     assertTrue(stdStructType instanceof AvroStructType);
@@ -234,10 +226,8 @@ public class TestAvroWrapper {
     Schema nonNullableField2 = createSchema("field2", "\"double\"");
     Schema field2 = Schema.createUnion(Arrays.asList(Schema.create(Schema.Type.NULL), nonNullableField2));
 
-    Schema structSchema = Schema.createRecord(ImmutableList.of(
-        new Schema.Field("field1", field1, null, null),
-        new Schema.Field("field2", field2, null, null)
-    ));
+    Schema structSchema = Schema.createRecord(ImmutableList.of(new Schema.Field("field1", field1, null, null),
+        new Schema.Field("field2", field2, null, null)));
 
     GenericRecord record1 = new GenericData.Record(structSchema);
     record1.put("field1", 1);

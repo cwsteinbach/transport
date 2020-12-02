@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -35,7 +35,7 @@ public class DistributionPackaging implements Packaging {
 
     /*
       Include the thin JAR and all the runtime dependencies into the distribution for a given platform
-
+    
       distributions {
         <platformName> {
           contents {
@@ -48,8 +48,7 @@ public class DistributionPackaging implements Packaging {
     DistributionContainer distributions = project.getExtensions().getByType(DistributionContainer.class);
     distributions.register(platform.getName(), distribution -> {
       distribution.setBaseName(project.getName());
-      distribution.getContents()
-          .from(platformThinJarTask)
+      distribution.getContents().from(platformThinJarTask)
           .from(getConfigurationForSourceSet(project, platformSourceSet, RUNTIME_CLASSPATH));
     });
 
@@ -65,13 +64,13 @@ public class DistributionPackaging implements Packaging {
    * Creates a thin JAR for the platform's {@link SourceSet} to be included in the distribution
    */
   private TaskProvider<Jar> createThinJarTask(Project project, SourceSet sourceSet, String platformName) {
-      /*
-        task <platformName>DistThinJar(type: Jar, dependsOn: prestoClasses) {
-          classifier '<platformName>-dist-thin'
-          from sourceSets.<platform>.output
-          from sourceSets.<platform>.resources
-        }
-      */
+    /*
+      task <platformName>DistThinJar(type: Jar, dependsOn: prestoClasses) {
+        classifier '<platformName>-dist-thin'
+        from sourceSets.<platform>.output
+        from sourceSets.<platform>.resources
+      }
+    */
 
     return project.getTasks().register(sourceSet.getTaskName(null, "distThinJar"), Jar.class, task -> {
       task.dependsOn(project.getTasks().named(sourceSet.getClassesTaskName()));

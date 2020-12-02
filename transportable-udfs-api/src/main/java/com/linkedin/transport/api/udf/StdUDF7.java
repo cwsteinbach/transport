@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -22,9 +22,9 @@ import com.linkedin.transport.api.data.StdData;
  */
 // Suppressing class parameter type parameter name and arg naming style checks since this naming convention is more
 // suitable to Standard UDFs, and the code is more readable this way.
-@SuppressWarnings({"checkstyle:classtypeparametername", "checkstyle:regexpsinglelinejava"})
-public abstract class StdUDF7<I1 extends StdData, I2 extends StdData, I3 extends StdData, I4 extends StdData,
-    I5 extends StdData, I6 extends StdData, I7 extends StdData, O extends StdData> extends StdUDF {
+@SuppressWarnings({ "checkstyle:classtypeparametername", "checkstyle:regexpsinglelinejava" })
+public abstract class StdUDF7<I1 extends StdData, I2 extends StdData, I3 extends StdData, I4 extends StdData, I5 extends StdData, I6 extends StdData, I7 extends StdData, O extends StdData>
+    extends StdUDF {
 
   /**
    * Returns the output of the {@link StdUDF} given the input arguments.
@@ -44,13 +44,13 @@ public abstract class StdUDF7<I1 extends StdData, I2 extends StdData, I3 extends
 
   /**
    * Returns an array of file paths to be localized at the worker nodes.
-
+  
    * The Standard UDF framework localizes the files passed through this method and provides the localized file paths to
    * {@link StdUDF#processRequiredFiles(String[])} for further processing. Users can use the pattern "#LATEST" instead
    * of a concrete directory name in the path as a way of selecting the directory with the most recent timestamp, and
    * hence obtaining the most recent version of a file.
    * Example: 'hdfs:///data/derived/dwh/prop/testMemberId/#LATEST/testMemberId.txt'
-
+  
    * The arguments passed to {@link #eval(StdData, StdData, StdData, StdData, StdData, StdData, StdData)} are passed to
    * this method as well to allow users to construct required file paths from arguments passed to the UDF. Since this
    * method is called before any rows are processed, only constant UDF arguments should be used to construct the file
@@ -72,11 +72,10 @@ public abstract class StdUDF7<I1 extends StdData, I2 extends StdData, I3 extends
    * @return an array of file paths to be localized at the worker nodes.
    */
   public String[] getRequiredFiles(I1 arg1, I2 arg2, I3 arg3, I4 arg4, I5 arg5, I6 arg6, I7 arg7) {
-    return new String[]{};
+    return new String[] {};
   }
 
   protected final int numberOfArguments() {
     return 7;
   }
 }
-

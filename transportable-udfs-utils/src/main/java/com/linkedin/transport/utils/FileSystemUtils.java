@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -14,6 +14,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+
 
 /**
  * This Utils class handles multiple utilities methods related with Hadoop FileSystem.
@@ -63,7 +64,6 @@ public class FileSystemUtils {
 
     return fs;
   }
-
 
   /***
    * This method is a utility method that address a common use case with UDFs that depend on files in HDFS.

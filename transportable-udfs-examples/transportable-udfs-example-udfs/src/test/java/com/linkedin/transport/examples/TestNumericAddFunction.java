@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -20,12 +20,8 @@ public class TestNumericAddFunction extends AbstractStdUDFTest {
 
   @Override
   protected Map<Class<? extends TopLevelStdUDF>, List<Class<? extends StdUDF>>> getTopLevelStdUDFClassesAndImplementations() {
-    return ImmutableMap.of(NumericAddFunction.class,
-        ImmutableList.of(
-            NumericAddIntFunction.class,
-            NumericAddLongFunction.class,
-            NumericAddFloatFunction.class,
-            NumericAddDoubleFunction.class));
+    return ImmutableMap.of(NumericAddFunction.class, ImmutableList.of(NumericAddIntFunction.class,
+        NumericAddLongFunction.class, NumericAddFloatFunction.class, NumericAddDoubleFunction.class));
   }
 
   @Test

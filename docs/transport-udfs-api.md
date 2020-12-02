@@ -1,28 +1,32 @@
 # The Transport UDFs API
 
-This guide takes you through the various interfaces in the Transport UDFs API that
-enable users to express data types, data objects, type signatures, and UDFs.
-For information about the project in general please refer to the [documentation index](/README.md#documentation)
+This guide takes you through the various interfaces in the Transport
+UDFs API that enable users to express data types, data objects, type
+signatures, and UDFs. For information about the project in general
+please refer to the [documentation index](/README.md#documentation)
 
 ## `StdType` Interface
+
 The `StdType` interface is the parent class of all type objects that
 are used to describe the schema of the data objects that can be
 manipulated by `StdUDFs`. Sub-interfaces of this interface include
 `StdIntegerType`, `StdBooleanType`, `StdLongType`, `StdStringType`,
 `StdDoubleType`, `StdFloatType`, `StdBinaryType`, `StdArrayType`,
-`StdMapType`, and `StdStructType`. Each sub-interface is
-defined by methods that are specific to the corresponding type. For
-example, `StdMapType` interface is defined by the two methods shown
-below. The `keyType()` and `valueType()` methods can be used to obtain
-the key and value types of a `StdMapType` object.
- 
+`StdMapType`, and `StdStructType`. Each sub-interface is defined by
+methods that are specific to the corresponding type. For example,
+`StdMapType` interface is defined by the two methods shown below. The
+`keyType()` and `valueType()` methods can be used to obtain the key
+and value types of a `StdMapType` object.
+
 ```java
 public interface StdMapType extends StdType {
   StdType keyType();
   StdType valueType();
 }
 ```
-Similarly, the rest of the `StdType` sub-types look like the following:
+
+Similarly, the rest of the `StdType` sub-types look like the
+following:
 
 ```java
 public interface StdArrayType extends StdType {
@@ -35,14 +39,16 @@ public interface StdStructType extends StdType {
   List<? extends StdType> fieldTypes();
 }
 ```
+
 ## `StdData` Interface
+
 `StdData` is a top-level interface for describing data that can be
 manipulated by Transport UDFs. As a top-level interface, `StdData`
 itself does not contain any methods. A number of type-specific
 interfaces extend `StdData`, such as `StdInteger`, `StdLong`,
 `StdBoolean`, `StdString`, `StdDouble`, `StdFloat`, `StdBinary`,
-`StdArray`, `StdMap`, and `StdStruct` to represent `INTEGER`,
-`LONG`, `BOOLEAN`, `VARCHAR`, `DOUBLE`, `REAL`, `VARBINARY`, `ARRAY`, `MAP`,
+`StdArray`, `StdMap`, and `StdStruct` to represent `INTEGER`, `LONG`,
+`BOOLEAN`, `VARCHAR`, `DOUBLE`, `REAL`, `VARBINARY`, `ARRAY`, `MAP`,
 and `STRUCT` SQL types respectively. Each of those interfaces exposes
 operations that can manipulate that type of data. For example,
 `StdMap` interface is defined by the following methods:
@@ -90,6 +96,7 @@ public interface StdString extends StdData {
 ```
 
 ## Type Signatures
+
 The Transport UDFs framework provides a way to declare what data types
 a UDF expects through type signatures. Type signatures in Transport
 UDFs support generic types, including type verification and
@@ -102,29 +109,30 @@ represent types with type parameters, which can be both concrete or
 generic. The following are type signature strings along with their
 definition:
 
-* `"varchar"`: to represent SQL Varchar type. The respective Standard
+- `"varchar"`: to represent SQL Varchar type. The respective Standard
   Type is StdString.
-* `"bigint"`: to represent SQL BigInt/Long types. The respective
+- `"bigint"`: to represent SQL BigInt/Long types. The respective
   Standard Type is StdLong.
-* `"integer"`: to represent SQL Int type. The respective Standard Type
+- `"integer"`: to represent SQL Int type. The respective Standard Type
   is StdInteger.
-* `"boolean"`: to represent SQL Boolean type. The respective Standard
+- `"boolean"`: to represent SQL Boolean type. The respective Standard
   Type is StdBoolean.
-* `"double"`: to represent SQL Double type. The respective Standard
+- `"double"`: to represent SQL Double type. The respective Standard
   Type is StdDouble.
-* `"real"`: to represent SQL Real type. The respective Standard
+- `"real"`: to represent SQL Real type. The respective Standard
   Type is StdFloat.
-* `"varbinary"`: to represent SQL Binary type. The respective Standard
+- `"varbinary"`: to represent SQL Binary type. The respective Standard
   Type is StdBinary.
-* `"array(T)"`: to represent SQL Array type, with elements of type
+- `"array(T)"`: to represent SQL Array type, with elements of type
   T. The respective Standard Type is StdArray.
-* `"map(K,V)"`: to represent SQL Map type, with keys of type K and
+- `"map(K,V)"`: to represent SQL Map type, with keys of type K and
   values of type V. The respective Standard Type is StdMap.
-* `"row(f1 T1,.., fn Tn)"`: to represent SQL Struct type with field
+- `"row(f1 T1,.., fn Tn)"`: to represent SQL Struct type with field
   types T1.. Tn with names f1.. fn, respectively. The respective
   Standard Type is StdStruct.
 
 ## The `StdFactory` Interface
+
 `StdFactory` is used to create new standard objects of different
 types. Similar to `StdData` and `StdType`, `StdFactory`
 implementations hide all the platforms-specific details from the user
@@ -154,6 +162,7 @@ public interface StdFactory {
 ```
 
 ## The `StdUDF` API
+
 All Transport UDF implementations (expressing UDF logic) extend the
 `StdUDF` abstract class. `StdUDF` abstract class is the base class for
 more specific `StdUDF` abstract sub-classes that are specific to the
@@ -163,7 +172,7 @@ arguments. Similar to lambda expressions, `StdUDF(i)` abstract classes
 are type-parameterized by the input types and output type of the eval
 function. Each class is type parameterized by `(i + 1)` type
 parameters: `i` type parameters for the UDF input types, and one type
-parameter for the output type.  All types (both input and output
+parameter for the output type. All types (both input and output
 types) must extend the `StdData` interface, i.e., `StdLong`,
 `StdBoolean`, `StdArray`, etc. Below we list the definition of
 `StdUDF` base class.
@@ -223,6 +232,7 @@ public abstract class StdUDF2<I1 extends StdData, I2 extends StdData, O extends 
 ```
 
 ### `StdUDF` File Processing
+
 The `StdUDF` API provides a standard way for accessing HDFS files and
 processing them in UDFs. The API exposes two file handling methods:
 `getRequiredFiles()`, and
@@ -239,6 +249,7 @@ from the files that can be used as lookup tables in the `eval()`
 method.
 
 ### Nullable Arguments
+
 Nullable arguments are arguments that can receive a null value. When
 an argument is declared nullable, the user can implement logic to
 specify the behavior of the UDF once an argument takes a null
@@ -248,6 +259,7 @@ implementing the `getNullableArguments()` method. The default
 implementation is to set all arguments to be non-nullable.
 
 ## `TopLevelStdUDF` Interface
+
 `TopLevelStdUDF` API is an interface that has only two methods:
 `getFunctionName()` and `getFunctionDescription()`. It is used as a
 means to enable UDF overloading if necessary. Transport UDFs enable
@@ -266,6 +278,7 @@ name and description is kept in one place (in the interface extending
 separate classes.
 
 ## Putting it all together
+
 The example below shows how it becomes so simple to express a UDF by
 combining all the APIs above together:
 

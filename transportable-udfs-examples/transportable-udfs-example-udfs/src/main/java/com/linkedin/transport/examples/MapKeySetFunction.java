@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -22,9 +22,7 @@ public class MapKeySetFunction extends StdUDF1<StdMap, StdArray> implements TopL
 
   @Override
   public List<String> getInputParameterSignatures() {
-    return ImmutableList.of(
-        "map(K,V)"
-    );
+    return ImmutableList.of("map(K,V)");
   }
 
   @Override

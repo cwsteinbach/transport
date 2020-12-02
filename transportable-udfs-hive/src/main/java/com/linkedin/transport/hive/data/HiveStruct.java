@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -31,32 +31,27 @@ public class HiveStruct extends HiveData implements StdStruct {
   @Override
   public StdData getField(int index) {
     StructField structField = _structObjectInspector.getAllStructFieldRefs().get(index);
-    return HiveWrapper.createStdData(
-        _structObjectInspector.getStructFieldData(_object, structField),
-        structField.getFieldObjectInspector(), _stdFactory
-    );
+    return HiveWrapper.createStdData(_structObjectInspector.getStructFieldData(_object, structField),
+        structField.getFieldObjectInspector(), _stdFactory);
   }
 
   @Override
   public StdData getField(String name) {
     StructField structField = _structObjectInspector.getStructFieldRef(name);
-    return HiveWrapper.createStdData(
-        _structObjectInspector.getStructFieldData(_object, structField),
-        structField.getFieldObjectInspector(), _stdFactory
-    );
+    return HiveWrapper.createStdData(_structObjectInspector.getStructFieldData(_object, structField),
+        structField.getFieldObjectInspector(), _stdFactory);
   }
 
   @Override
   public void setField(int index, StdData value) {
     if (_structObjectInspector instanceof SettableStructObjectInspector) {
       StructField field = _structObjectInspector.getAllStructFieldRefs().get(index);
-      ((SettableStructObjectInspector) _structObjectInspector).setStructFieldData(_object,
-          field, ((HiveData) value).getUnderlyingDataForObjectInspector(field.getFieldObjectInspector())
-      );
+      ((SettableStructObjectInspector) _structObjectInspector).setStructFieldData(_object, field,
+          ((HiveData) value).getUnderlyingDataForObjectInspector(field.getFieldObjectInspector()));
       _isObjectModified = true;
     } else {
-      throw new RuntimeException("Attempt to modify an immutable Hive object of type: "
-          + _structObjectInspector.getClass());
+      throw new RuntimeException(
+          "Attempt to modify an immutable Hive object of type: " + _structObjectInspector.getClass());
     }
   }
 
@@ -64,12 +59,12 @@ public class HiveStruct extends HiveData implements StdStruct {
   public void setField(String name, StdData value) {
     if (_structObjectInspector instanceof SettableStructObjectInspector) {
       StructField field = _structObjectInspector.getStructFieldRef(name);
-      ((SettableStructObjectInspector) _structObjectInspector).setStructFieldData(_object,
-          field, ((HiveData) value).getUnderlyingDataForObjectInspector(field.getFieldObjectInspector()));
+      ((SettableStructObjectInspector) _structObjectInspector).setStructFieldData(_object, field,
+          ((HiveData) value).getUnderlyingDataForObjectInspector(field.getFieldObjectInspector()));
       _isObjectModified = true;
     } else {
-      throw new RuntimeException("Attempt to modify an immutable Hive object of type: "
-          + _structObjectInspector.getClass());
+      throw new RuntimeException(
+          "Attempt to modify an immutable Hive object of type: " + _structObjectInspector.getClass());
     }
   }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -54,9 +54,8 @@ public class HiveMap extends HiveData implements StdMap {
       keyObj = ((HiveData) key).getStandardObject();
     }
 
-    return HiveWrapper.createStdData(
-        mapOI.getMapValueElement(mapObj, keyObj),
-        mapOI.getMapValueObjectInspector(), _stdFactory);
+    return HiveWrapper.createStdData(mapOI.getMapValueElement(mapObj, keyObj), mapOI.getMapValueObjectInspector(),
+        _stdFactory);
   }
 
   @Override
@@ -65,15 +64,11 @@ public class HiveMap extends HiveData implements StdMap {
       Object keyObj = ((HiveData) key).getUnderlyingDataForObjectInspector(_keyObjectInspector);
       Object valueObj = ((HiveData) value).getUnderlyingDataForObjectInspector(_valueObjectInspector);
 
-      ((SettableMapObjectInspector) _mapObjectInspector).put(
-          _object,
-          keyObj,
-          valueObj
-      );
+      ((SettableMapObjectInspector) _mapObjectInspector).put(_object, keyObj, valueObj);
       _isObjectModified = true;
     } else {
-      throw new RuntimeException("Attempt to modify an immutable Hive object of type: "
-          + _mapObjectInspector.getClass());
+      throw new RuntimeException(
+          "Attempt to modify an immutable Hive object of type: " + _mapObjectInspector.getClass());
     }
   }
 

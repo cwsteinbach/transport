@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -19,7 +19,7 @@ import com.linkedin.transport.api.data.StdData;
  */
 // Suppressing class parameter type parameter name and arg naming style checks since this naming convention is more
 // suitable to Standard UDFs, and the code is more readable this way.
-@SuppressWarnings({"checkstyle:classtypeparametername", "checkstyle:regexpsinglelinejava"})
+@SuppressWarnings({ "checkstyle:classtypeparametername", "checkstyle:regexpsinglelinejava" })
 public abstract class StdUDF4<I1 extends StdData, I2 extends StdData, I3 extends StdData, I4 extends StdData, O extends StdData>
     extends StdUDF {
 
@@ -62,7 +62,7 @@ public abstract class StdUDF4<I1 extends StdData, I2 extends StdData, I3 extends
    * @return an array of file paths to be localized at the worker nodes.
    */
   public String[] getRequiredFiles(I1 arg1, I2 arg2, I3 arg3, I4 arg4) {
-    return new String[]{};
+    return new String[] {};
   }
 
   protected final int numberOfArguments() {

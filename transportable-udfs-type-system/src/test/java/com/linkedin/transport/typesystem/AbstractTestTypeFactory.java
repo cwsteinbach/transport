@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -10,6 +10,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
+
 
 // Suppressing type naming convention style check to be consistent with the way we name types in other classes, where
 // they are static variables. They cannot be static variables here, but that is just because of the type system abstraction
@@ -48,8 +49,8 @@ public abstract class AbstractTestTypeFactory<T> {
   }
 
   public void assertCreateType(String typeSignatureString, T dataType) {
-    assertEquals(
-        getTypeFactory().createType(TypeSignature.parse(typeSignatureString), createBoundVariables()), dataType);
+    assertEquals(getTypeFactory().createType(TypeSignature.parse(typeSignatureString), createBoundVariables()),
+        dataType);
   }
 
   @Test
@@ -80,9 +81,10 @@ public abstract class AbstractTestTypeFactory<T> {
   public void testCreateTypeStruct() {
     assertCreateType("row(array(integer), varchar, map(varchar,varchar))",
         struct(array(INTEGER), STRING, map(STRING, STRING)));
-    assertCreateType("row(arrField array(integer), strField varchar, mapField map(varchar,varchar), rowField row(integer))",
-        struct(Arrays.asList("arrField", "strField", "mapField", "rowField"), array(INTEGER), STRING, map(STRING, STRING), struct(INTEGER))
-    );
+    assertCreateType(
+        "row(arrField array(integer), strField varchar, mapField map(varchar,varchar), rowField row(integer))",
+        struct(Arrays.asList("arrField", "strField", "mapField", "rowField"), array(INTEGER), STRING,
+            map(STRING, STRING), struct(INTEGER)));
     assertCreateType("row(integer, bigint, varchar, boolean, real, double, varbinary, unknown)",
         struct(INTEGER, LONG, STRING, BOOLEAN, FLOAT, DOUBLE, BINARY, NULL));
   }

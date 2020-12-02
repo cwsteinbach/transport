@@ -10,12 +10,12 @@ dependencies {
   compile ('com.squareup:javapoet:1.11.1')
 }
 
-licenseTest {
-  exclude 'inputs/**'
-  exclude 'outputs/**'
-}
+// licenseTest {
+//   exclude 'inputs/**'
+//   exclude 'outputs/**'
+// }
 
-licenseFormatTest {
-  exclude 'inputs/**'
-  exclude 'outputs/**'
-}
+// licenseFormatTest {
+//   exclude 'inputs/**'
+//   exclude 'outputs/**'
+// }

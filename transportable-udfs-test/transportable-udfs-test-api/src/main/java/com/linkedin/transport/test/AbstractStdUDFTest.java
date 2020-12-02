@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -102,8 +102,9 @@ public abstract class AbstractStdUDFTest {
   protected static String resource(String relativeResourcePath) {
     String filePath = null;
     try {
-      filePath = new URI("file", AbstractStdUDFTest.class.getClassLoader().getResource(relativeResourcePath).getPath(),
-          null).toString();
+      filePath =
+          new URI("file", AbstractStdUDFTest.class.getClassLoader().getResource(relativeResourcePath).getPath(), null)
+              .toString();
     } catch (NullPointerException | URISyntaxException e) {
       throw new IllegalArgumentException("Error fetching resource file: " + relativeResourcePath, e);
     }

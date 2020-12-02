@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -30,8 +30,8 @@ class CodegenUtils {
    * @param code Source code of the class
    * @throws IOException
    */
-  static void writeCodeFile(Path outputDir, String packageName, String className, String extension,
-      String code) throws IOException {
+  static void writeCodeFile(Path outputDir, String packageName, String className, String extension, String code)
+      throws IOException {
     Preconditions.checkArgument(Files.notExists(outputDir) || Files.isDirectory(outputDir),
         "Output directory should not exist or must be a directory", outputDir);
     Preconditions.checkArgument(!StringUtils.isBlank(className), "Class name should not be null or an empty string");
@@ -58,8 +58,7 @@ class CodegenUtils {
    * @param services List of services
    * @throws IOException
    */
-  static void writeServiceFile(Path outputDir, Path serviceFilePath, Collection<String> services)
-      throws IOException {
+  static void writeServiceFile(Path outputDir, Path serviceFilePath, Collection<String> services) throws IOException {
     Preconditions.checkArgument(Files.notExists(outputDir) || Files.isDirectory(outputDir),
         "Output directory should not exist or must be a directory", outputDir);
     Preconditions.checkNotNull(serviceFilePath, "Service file path should not be null");

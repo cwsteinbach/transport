@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -74,9 +74,8 @@ public abstract class StdUDF {
   public final boolean[] getAndCheckNullableArguments() {
     boolean[] nullableArguments = getNullableArguments();
     if (nullableArguments.length != numberOfArguments()) {
-      throw new RuntimeException(
-          "Unexpected number of nullable arguments. Expected:" + numberOfArguments() + " Received:"
-              + nullableArguments.length);
+      throw new RuntimeException("Unexpected number of nullable arguments. Expected:" + numberOfArguments()
+          + " Received:" + nullableArguments.length);
     }
     return nullableArguments;
   }

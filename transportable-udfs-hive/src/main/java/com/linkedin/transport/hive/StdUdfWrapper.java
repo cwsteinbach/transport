@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -139,8 +139,9 @@ public abstract class StdUdfWrapper extends GenericUDF {
 
   private StdData[] wrapConstants() {
     return Arrays.stream(_inputObjectInspectors)
-        .map(oi -> (oi instanceof ConstantObjectInspector) ? HiveWrapper.createStdData(
-            ((ConstantObjectInspector) oi).getWritableConstantValue(), oi, _stdFactory) : null)
+        .map(oi -> (oi instanceof ConstantObjectInspector)
+            ? HiveWrapper.createStdData(((ConstantObjectInspector) oi).getWritableConstantValue(), oi, _stdFactory)
+            : null)
         .toArray(StdData[]::new);
   }
 
@@ -191,7 +192,7 @@ public abstract class StdUdfWrapper extends GenericUDF {
   @Override
   public String[] getRequiredFiles() {
     if (containsNullValuedNonNullableConstants()) {
-      return new String[]{};
+      return new String[] {};
     }
     StdData[] args = wrapConstants();
     String[] requiredFiles;
@@ -222,9 +223,8 @@ public abstract class StdUdfWrapper extends GenericUDF {
             ((StdUDF7) _stdUdf).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
         break;
       case 8:
-        requiredFiles =
-            ((StdUDF8) _stdUdf).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5], args[6],
-                args[7]);
+        requiredFiles = ((StdUDF8) _stdUdf).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5],
+            args[6], args[7]);
         break;
       default:
         throw new UnsupportedOperationException("getRequiredFiles not yet supported for StdUDF" + args.length);
@@ -262,8 +262,8 @@ public abstract class StdUdfWrapper extends GenericUDF {
     SessionState ss = SessionState.get();
     if (ss != null) {
       String downloadedResourcesDir = ss.getConf().getVar(HiveConf.ConfVars.DOWNLOADED_RESOURCES_DIR);
-      Path resourcesDirPath = Path.getPathWithoutSchemeAndAuthority(
-          new Path(downloadedResourcesDir, pathWithoutSchemeAndAuthority.getName()));
+      Path resourcesDirPath = Path
+          .getPathWithoutSchemeAndAuthority(new Path(downloadedResourcesDir, pathWithoutSchemeAndAuthority.getName()));
       try {
         if (fs.exists(resourcesDirPath)) {
           return resourcesDirPath;
@@ -275,9 +275,9 @@ public abstract class StdUdfWrapper extends GenericUDF {
 
     try {
       Path currentDirPath = new Path(pathWithoutSchemeAndAuthority.getName());
-      if (fs.exists(currentDirPath)) {  // (2) check in current directory
+      if (fs.exists(currentDirPath)) { // (2) check in current directory
         return currentDirPath;
-      } else if (fs.exists(pathWithoutSchemeAndAuthority)) {  // (3) check full path on local disk
+      } else if (fs.exists(pathWithoutSchemeAndAuthority)) { // (3) check full path on local disk
         return pathWithoutSchemeAndAuthority;
       }
     } catch (IOException e) {

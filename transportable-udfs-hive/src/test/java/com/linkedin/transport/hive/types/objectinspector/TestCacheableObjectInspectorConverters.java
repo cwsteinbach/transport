@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -40,8 +40,7 @@ public class TestCacheableObjectInspectorConverters {
     MapConverter c3 = (MapConverter) cacheableObjectInspectorConverters.getConverter(
         ObjectInspectorFactory.getStandardMapObjectInspector(writableStringObjectInspector,
             writableStringObjectInspector),
-        ObjectInspectorFactory.getStandardMapObjectInspector(javaStringObjectInspector, javaStringObjectInspector)
-    );
+        ObjectInspectorFactory.getStandardMapObjectInspector(javaStringObjectInspector, javaStringObjectInspector));
     Assert.assertSame(c1, c3.keyConverter);
     Assert.assertSame(c1, c3.valueConverter);
   }
@@ -122,8 +121,9 @@ public class TestCacheableObjectInspectorConverters {
 
       textConverter =
           cacheableObjectInspectorConverters.getConverter(writableBinaryObjectInspector, writableStringObjectInspector);
-      Assert.assertEquals(new Text("hive"), textConverter
-          .convert(new BytesWritable(new byte[]{(byte) 'h', (byte) 'i', (byte) 'v', (byte) 'e'})), "TextConverter");
+      Assert.assertEquals(new Text("hive"),
+          textConverter.convert(new BytesWritable(new byte[] { (byte) 'h', (byte) 'i', (byte) 'v', (byte) 'e' })),
+          "TextConverter");
       Assert.assertEquals(null, textConverter.convert(null), "TextConverter");
 
       textConverter =
@@ -144,13 +144,13 @@ public class TestCacheableObjectInspectorConverters {
       // Binary
       Converter baConverter =
           cacheableObjectInspectorConverters.getConverter(javaStringObjectInspector, writableBinaryObjectInspector);
-      Assert.assertEquals(new BytesWritable(new byte[]{(byte) 'h', (byte) 'i', (byte) 'v', (byte) 'e'}),
+      Assert.assertEquals(new BytesWritable(new byte[] { (byte) 'h', (byte) 'i', (byte) 'v', (byte) 'e' }),
           baConverter.convert("hive"), "BAConverter");
       Assert.assertEquals(null, baConverter.convert(null), "BAConverter");
 
       baConverter =
           cacheableObjectInspectorConverters.getConverter(writableStringObjectInspector, writableBinaryObjectInspector);
-      Assert.assertEquals(new BytesWritable(new byte[]{(byte) 'h', (byte) 'i', (byte) 'v', (byte) 'e'}),
+      Assert.assertEquals(new BytesWritable(new byte[] { (byte) 'h', (byte) 'i', (byte) 'v', (byte) 'e' }),
           baConverter.convert(new Text("hive")), "BAConverter");
       Assert.assertEquals(null, baConverter.convert(null), "BAConverter");
     } catch (Throwable e) {

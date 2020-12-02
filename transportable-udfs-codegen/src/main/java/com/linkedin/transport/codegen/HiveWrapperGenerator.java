@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -42,28 +42,26 @@ public class HiveWrapperGenerator implements WrapperGenerator {
   private void generateWrapper(String topLevelClass, Collection<String> implementationClasses, File outputDir) {
 
     ClassName topLevelClassName = ClassName.bestGuess(topLevelClass);
-    ClassName wrapperClassName = ClassName.get(topLevelClassName.packageName() + "." + HIVE_PACKAGE_SUFFIX,
-        topLevelClassName.simpleName());
+    ClassName wrapperClassName =
+        ClassName.get(topLevelClassName.packageName() + "." + HIVE_PACKAGE_SUFFIX, topLevelClassName.simpleName());
 
     /*
       Generates ->
-
+    
       @Override
       protected Class<? extends TopLevelStdUDF> getTopLevelUdfClass() {
         return ${topLevelClass}.class;
       }
      */
-    MethodSpec getTopLevelUdfClassMethod = MethodSpec.methodBuilder(GET_TOP_LEVEL_UDF_CLASS_METHOD)
-        .addAnnotation(Override.class)
-        .returns(
-            ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(TopLevelStdUDF.class)))
-        .addModifiers(Modifier.PROTECTED)
-        .addStatement("return $T.class", topLevelClassName)
-        .build();
+    MethodSpec getTopLevelUdfClassMethod =
+        MethodSpec.methodBuilder(GET_TOP_LEVEL_UDF_CLASS_METHOD).addAnnotation(Override.class)
+            .returns(
+                ParameterizedTypeName.get(ClassName.get(Class.class), WildcardTypeName.subtypeOf(TopLevelStdUDF.class)))
+            .addModifiers(Modifier.PROTECTED).addStatement("return $T.class", topLevelClassName).build();
 
     /*
       Generates ->
-
+    
       @Override
       protected List<? extends StdUDF> getStdUdfImplementations() {
         return ImmutableList.of(
@@ -75,32 +73,28 @@ public class HiveWrapperGenerator implements WrapperGenerator {
         );
       }
      */
-    MethodSpec getStdUdfImplementationsMethod = MethodSpec.methodBuilder(GET_STD_UDF_IMPLEMENTATIONS_METHOD)
-        .addAnnotation(Override.class)
-        .returns(ParameterizedTypeName.get(ClassName.get(List.class), WildcardTypeName.subtypeOf(StdUDF.class)))
-        .addModifiers(Modifier.PROTECTED)
-        .addStatement("return $T.of($L)", ImmutableList.class, implementationClasses.stream()
-            .map(clazz -> "new " + clazz + "()")
-            .collect(Collectors.joining(", ")))
-        .build();
+    MethodSpec getStdUdfImplementationsMethod =
+        MethodSpec.methodBuilder(GET_STD_UDF_IMPLEMENTATIONS_METHOD).addAnnotation(Override.class)
+            .returns(ParameterizedTypeName.get(ClassName.get(List.class), WildcardTypeName.subtypeOf(StdUDF.class)))
+            .addModifiers(Modifier.PROTECTED)
+            .addStatement("return $T.of($L)", ImmutableList.class,
+                implementationClasses.stream().map(clazz -> "new " + clazz + "()").collect(Collectors.joining(", ")))
+            .build();
 
     /*
       Generates ->
-
+    
       public class ${wrapperClassName} extends StdUdfWrapper {
-
+    
         .
         .
         .
-
+    
       }
      */
-    TypeSpec wrapperClass = TypeSpec.classBuilder(wrapperClassName)
-        .addModifiers(Modifier.PUBLIC)
-        .superclass(HIVE_STD_UDF_WRAPPER_CLASS_NAME)
-        .addMethod(getTopLevelUdfClassMethod)
-        .addMethod(getStdUdfImplementationsMethod)
-        .build();
+    TypeSpec wrapperClass = TypeSpec.classBuilder(wrapperClassName).addModifiers(Modifier.PUBLIC)
+        .superclass(HIVE_STD_UDF_WRAPPER_CLASS_NAME).addMethod(getTopLevelUdfClassMethod)
+        .addMethod(getStdUdfImplementationsMethod).build();
 
     JavaFile javaFile = JavaFile.builder(wrapperClassName.packageName(), wrapperClass).build();
 

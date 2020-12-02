@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
 
 import static com.linkedin.transport.typesystem.TypeSignatureFactory.*;
 
@@ -36,8 +35,7 @@ public class TestTypeSignature {
 
     Assert.assertEquals(TypeSignature.parse("array(map(varchar,boolean))"), array(map(STRING, BOOLEAN)));
 
-    Assert.assertEquals(
-        TypeSignature.parse("array(row(varchar,boolean,integer,real,double,varbinary))"),
+    Assert.assertEquals(TypeSignature.parse("array(row(varchar,boolean,integer,real,double,varbinary))"),
         array(struct(STRING, BOOLEAN, INTEGER, FLOAT, DOUBLE, BINARY)));
   }
 
@@ -112,22 +110,13 @@ public class TestTypeSignature {
 
   @Test
   public void testTypeSignatureGetGenericTypes() {
-    Assert.assertEquals(
-        TypeSignature.parse("row(boolean,boolean)").getGenericTypeSignatureElements(),
-        new HashSet<>());
-    Assert.assertEquals(
-        TypeSignature.parse("row(K,V)").getGenericTypeSignatureElements(),
-        new HashSet<>(Arrays.asList(
-            new GenericTypeSignatureElement("K"),
-            new GenericTypeSignatureElement("V"))));
-    Assert.assertEquals(
-        TypeSignature.parse("map(K,K)").getGenericTypeSignatureElements(),
-        new HashSet<>(Arrays.asList(
-            new GenericTypeSignatureElement("K"))));
+    Assert.assertEquals(TypeSignature.parse("row(boolean,boolean)").getGenericTypeSignatureElements(), new HashSet<>());
+    Assert.assertEquals(TypeSignature.parse("row(K,V)").getGenericTypeSignatureElements(),
+        new HashSet<>(Arrays.asList(new GenericTypeSignatureElement("K"), new GenericTypeSignatureElement("V"))));
+    Assert.assertEquals(TypeSignature.parse("map(K,K)").getGenericTypeSignatureElements(),
+        new HashSet<>(Arrays.asList(new GenericTypeSignatureElement("K"))));
     Assert.assertEquals(
         TypeSignature.parse("row(array(map(K,varchar)),row(V,integer))").getGenericTypeSignatureElements(),
-        new HashSet<>(Arrays.asList(
-            new GenericTypeSignatureElement("K"),
-            new GenericTypeSignatureElement("V"))));
+        new HashSet<>(Arrays.asList(new GenericTypeSignatureElement("K"), new GenericTypeSignatureElement("V"))));
   }
 }

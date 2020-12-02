@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -92,15 +92,12 @@ public abstract class AbstractTypeInference<T> {
     return _typeSystem.getStructFieldTypes(dataType);
   }
 
-  public void compile(
-      T[] dataTypes,
-      List<? extends StdUDF> stdUdfImplementations,
+  public void compile(T[] dataTypes, List<? extends StdUDF> stdUdfImplementations,
       Class<? extends TopLevelStdUDF> topLevelUdfClass) {
-    Preconditions.checkArgument(stdUdfImplementations.size() > 0,
-        "Empty Standard UDF Implementations list");
+    Preconditions.checkArgument(stdUdfImplementations.size() > 0, "Empty Standard UDF Implementations list");
     AbstractBoundVariables<T> boundVariables = null;
     boolean atLeastOneInputParametersSignaturesBindingSuccess = false;
-    for (StdUDF stdUdf: stdUdfImplementations) {
+    for (StdUDF stdUdf : stdUdfImplementations) {
       List<String> inputParameterSignatures = stdUdf.getInputParameterSignatures();
       if (inputParameterSignatures.size() != dataTypes.length) {
         continue;
@@ -108,9 +105,8 @@ public abstract class AbstractTypeInference<T> {
       boundVariables = createBoundVariables();
       boolean currentInputParametersSignaturesBindingSuccess = true;
       for (int i = 0; i < inputParameterSignatures.size(); i++) {
-        currentInputParametersSignaturesBindingSuccess =
-            currentInputParametersSignaturesBindingSuccess
-                && boundVariables.bind(TypeSignature.parse(inputParameterSignatures.get(i)), dataTypes[i]);
+        currentInputParametersSignaturesBindingSuccess = currentInputParametersSignaturesBindingSuccess
+            && boundVariables.bind(TypeSignature.parse(inputParameterSignatures.get(i)), dataTypes[i]);
       }
       if (currentInputParametersSignaturesBindingSuccess) {
         _inputDataTypes = dataTypes;
@@ -122,19 +118,14 @@ public abstract class AbstractTypeInference<T> {
     }
 
     if (!atLeastOneInputParametersSignaturesBindingSuccess) {
-      throw new RuntimeException("Error processing UDF of type: "
-          + topLevelUdfClass.getName()
-          + ". Received UDF inputs of type "
-          + dataTypesToString(dataTypes)
-          + " while expecting one of the following type signatures:\n"
-          + singaturesToString(stdUdfImplementations.stream().map(StdUDF::getInputParameterSignatures)
-          .collect(Collectors.toList())));
+      throw new RuntimeException("Error processing UDF of type: " + topLevelUdfClass.getName()
+          + ". Received UDF inputs of type " + dataTypesToString(dataTypes)
+          + " while expecting one of the following type signatures:\n" + singaturesToString(
+              stdUdfImplementations.stream().map(StdUDF::getInputParameterSignatures).collect(Collectors.toList())));
     }
 
-    _outputDataType = getTypeFactory().createType(
-        TypeSignature.parse(_stdUdf.getOutputParameterSignature()),
-        boundVariables
-    );
+    _outputDataType =
+        getTypeFactory().createType(TypeSignature.parse(_stdUdf.getOutputParameterSignature()), boundVariables);
   }
 
   private String dataTypesToString(T[] dataTypes) {
@@ -159,13 +150,9 @@ public abstract class AbstractTypeInference<T> {
     } else if (isUnknownType(dataType)) {
       return "unknown";
     } else if (isArrayType(dataType)) {
-      return "array("
-          + dataTypeToString(getArrayElementType(dataType))
-          + ")";
+      return "array(" + dataTypeToString(getArrayElementType(dataType)) + ")";
     } else if (isMapType(dataType)) {
-      return "map("
-          + dataTypeToString(getMapKeyType(dataType)) + ", "
-          + dataTypeToString(getMapValueType(dataType))
+      return "map(" + dataTypeToString(getMapKeyType(dataType)) + ", " + dataTypeToString(getMapValueType(dataType))
           + ")";
     } else if (isStructType(dataType)) {
       return "row("

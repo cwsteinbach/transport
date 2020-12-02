@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -37,9 +37,8 @@ public class SparkWrapperGenerator implements WrapperGenerator {
 
   private void generateWrapper(String topLevelClass, Collection<String> implementationClasses, File outputDir) {
     final String wrapperTemplate;
-    try (InputStream wrapperTemplateStream = Thread.currentThread()
-        .getContextClassLoader()
-        .getResourceAsStream(SPARK_WRAPPER_TEMPLATE_RESOURCE_PATH)) {
+    try (InputStream wrapperTemplateStream =
+        Thread.currentThread().getContextClassLoader().getResourceAsStream(SPARK_WRAPPER_TEMPLATE_RESOURCE_PATH)) {
       wrapperTemplate = IOUtils.toString(wrapperTemplateStream);
     } catch (IOException e) {
       throw new RuntimeException("Could not read wrapper template for Spark", e);
@@ -48,16 +47,13 @@ public class SparkWrapperGenerator implements WrapperGenerator {
     ClassName topLevelClassName = ClassName.bestGuess(topLevelClass);
     ClassName wrapperClass =
         ClassName.get(topLevelClassName.packageName() + "." + SPARK_PACKAGE_SUFFIX, topLevelClassName.simpleName());
-    String udfImplementationInstantiations = implementationClasses.stream()
-        .map(clazz -> "new " + clazz + "()")
-        .collect(Collectors.joining(", "));
+    String udfImplementationInstantiations =
+        implementationClasses.stream().map(clazz -> "new " + clazz + "()").collect(Collectors.joining(", "));
 
-    ImmutableMap<String, String> substitutionMap = ImmutableMap.of(
-        SUBSTITUTOR_KEY_WRAPPER_PACKAGE, wrapperClass.packageName(),
-        SUBSTITUTOR_KEY_WRAPPER_CLASS, wrapperClass.simpleName(),
-        SUBSTITUTOR_KEY_UDF_TOP_LEVEL_CLASS, topLevelClassName.toString(),
-        SUBSTITUTOR_KEY_UDF_IMPLEMENTATIONS, udfImplementationInstantiations
-    );
+    ImmutableMap<String, String> substitutionMap =
+        ImmutableMap.of(SUBSTITUTOR_KEY_WRAPPER_PACKAGE, wrapperClass.packageName(), SUBSTITUTOR_KEY_WRAPPER_CLASS,
+            wrapperClass.simpleName(), SUBSTITUTOR_KEY_UDF_TOP_LEVEL_CLASS, topLevelClassName.toString(),
+            SUBSTITUTOR_KEY_UDF_IMPLEMENTATIONS, udfImplementationInstantiations);
 
     StringSubstitutor substitutor = new StringSubstitutor(substitutionMap);
     String wrapperCode = substitutor.replace(wrapperTemplate);

@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -48,73 +48,47 @@ class Defaults {
           "transport"),
       // the idea plugin needs a scala-library on the classpath when the scala plugin is applied even when there are no
       // scala sources
-      getDependencyConfiguration(COMPILE_ONLY, "org.scala-lang:scala-library", "scala")
-  );
+      getDependencyConfiguration(COMPILE_ONLY, "org.scala-lang:scala-library", "scala"));
 
   static final List<DependencyConfiguration> TEST_SOURCE_SET_DEPENDENCY_CONFIGURATIONS = ImmutableList.of(
       getDependencyConfiguration(IMPLEMENTATION, "com.linkedin.transport:transportable-udfs-test-api", "transport"),
-      getDependencyConfiguration(RUNTIME_ONLY, "com.linkedin.transport:transportable-udfs-test-generic", "transport")
-  );
+      getDependencyConfiguration(RUNTIME_ONLY, "com.linkedin.transport:transportable-udfs-test-generic", "transport"));
 
   static final List<Platform> DEFAULT_PLATFORMS = ImmutableList.of(
-      new Platform(
-          "presto",
-          Language.JAVA,
-          PrestoWrapperGenerator.class,
-          ImmutableList.of(
-              getDependencyConfiguration(IMPLEMENTATION, "com.linkedin.transport:transportable-udfs-presto",
-                  "transport"),
-              getDependencyConfiguration(COMPILE_ONLY, "io.prestosql:presto-main", "presto")
-          ),
+      new Platform("presto", Language.JAVA, PrestoWrapperGenerator.class,
+          ImmutableList.of(getDependencyConfiguration(IMPLEMENTATION,
+              "com.linkedin.transport:transportable-udfs-presto", "transport"),
+              getDependencyConfiguration(COMPILE_ONLY, "io.prestosql:presto-main", "presto")),
           ImmutableList.of(
               getDependencyConfiguration(RUNTIME_ONLY, "com.linkedin.transport:transportable-udfs-test-presto",
                   "transport"),
               // presto-main:tests is a transitive dependency of transportable-udfs-test-presto, but some POM -> IVY
               // converters drop dependencies with classifiers, so we apply this dependency explicitly
-              getDependencyConfiguration(RUNTIME_ONLY, "io.prestosql:presto-main", "presto", "tests")
-          ),
+              getDependencyConfiguration(RUNTIME_ONLY, "io.prestosql:presto-main", "presto", "tests")),
           ImmutableList.of(new ThinJarPackaging(), new DistributionPackaging())),
-      new Platform(
-          "hive",
-          Language.JAVA,
-          HiveWrapperGenerator.class,
+      new Platform("hive", Language.JAVA, HiveWrapperGenerator.class,
           ImmutableList.of(
               getDependencyConfiguration(IMPLEMENTATION, "com.linkedin.transport:transportable-udfs-hive", "transport"),
-              getDependencyConfiguration(COMPILE_ONLY, "org.apache.hive:hive-exec", "hive")
-          ),
-          ImmutableList.of(
-              getDependencyConfiguration(RUNTIME_ONLY, "com.linkedin.transport:transportable-udfs-test-hive",
-                  "transport")
-          ),
+              getDependencyConfiguration(COMPILE_ONLY, "org.apache.hive:hive-exec", "hive")),
+          ImmutableList.of(getDependencyConfiguration(RUNTIME_ONLY,
+              "com.linkedin.transport:transportable-udfs-test-hive", "transport")),
           ImmutableList.of(new ShadedJarPackaging(ImmutableList.of("org.apache.hadoop", "org.apache.hive"), null))),
-      new Platform(
-          "spark",
-          Language.SCALA,
-          SparkWrapperGenerator.class,
-          ImmutableList.of(
-              getDependencyConfiguration(IMPLEMENTATION, "com.linkedin.transport:transportable-udfs-spark",
-                  "transport"),
-              getDependencyConfiguration(COMPILE_ONLY, "org.apache.spark:spark-sql_2.11", "spark")
-          ),
-          ImmutableList.of(
-              getDependencyConfiguration(RUNTIME_ONLY, "com.linkedin.transport:transportable-udfs-test-spark",
-                  "transport")
-          ),
-          ImmutableList.of(new ShadedJarPackaging(
-              ImmutableList.of("org.apache.hadoop", "org.apache.spark"),
-              ImmutableList.of("com.linkedin.transport.spark.**")))
-      )
-  );
+      new Platform("spark", Language.SCALA, SparkWrapperGenerator.class,
+          ImmutableList.of(getDependencyConfiguration(IMPLEMENTATION, "com.linkedin.transport:transportable-udfs-spark",
+              "transport"), getDependencyConfiguration(COMPILE_ONLY, "org.apache.spark:spark-sql_2.11", "spark")),
+          ImmutableList.of(getDependencyConfiguration(RUNTIME_ONLY,
+              "com.linkedin.transport:transportable-udfs-test-spark", "transport")),
+          ImmutableList.of(new ShadedJarPackaging(ImmutableList.of("org.apache.hadoop", "org.apache.spark"),
+              ImmutableList.of("com.linkedin.transport.spark.**")))));
 
-  private static DependencyConfiguration getDependencyConfiguration(ConfigurationType configurationType,
-      String module, String platform) {
+  private static DependencyConfiguration getDependencyConfiguration(ConfigurationType configurationType, String module,
+      String platform) {
     return getDependencyConfiguration(configurationType, module, platform, null);
   }
 
-  private static DependencyConfiguration getDependencyConfiguration(ConfigurationType configurationType,
-      String module, String platform, String classifier) {
-    return new DependencyConfiguration(configurationType, module
-        + ":" + DEFAULT_VERSIONS.getProperty(platform + "-version")
-        + (classifier != null ? (":" + classifier) : ""));
+  private static DependencyConfiguration getDependencyConfiguration(ConfigurationType configurationType, String module,
+      String platform, String classifier) {
+    return new DependencyConfiguration(configurationType, module + ":"
+        + DEFAULT_VERSIONS.getProperty(platform + "-version") + (classifier != null ? (":" + classifier) : ""));
   }
 }

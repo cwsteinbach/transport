@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -34,8 +34,7 @@ public class TypeSignature {
   protected TypeSignature(TypeSignatureElement base, List<TypeSignature> parameters, List<String> parameterNames) {
     if (!base.acceptsVariableLengthParameters()) {
       boolean isNumParametersExpected =
-          (parameters == null && base.numParameters() == 0)
-              || (parameters.size() == base.numParameters());
+          (parameters == null && base.numParameters() == 0) || (parameters.size() == base.numParameters());
       if (!isNumParametersExpected) {
         throw new RuntimeException("Unexpected number of parameters for type: " + base);
       }
@@ -127,8 +126,7 @@ public class TypeSignature {
 
   private static void addCurrentTypeSignatureToStackPeek(StringBuilder currentBaseStringBuilder,
       List<TypeSignature> currentParameters, Stack<List<TypeSignature>> parameterStack,
-      List<String> currentParameterNames,
-      Stack<List<String>> parameterNamesStack) {
+      List<String> currentParameterNames, Stack<List<String>> parameterNamesStack) {
     String currentBase = currentBaseStringBuilder.toString().trim();
     String name = null;
     if (currentBase.contains(" ")) {
@@ -210,14 +208,11 @@ public class TypeSignature {
     if (_parameters == null) {
       return _base.toString();
     } else if (_parameterNames == null) {
-      return _base + "("
-          + _parameters.stream().map(p -> p.toString()).collect(Collectors.joining(","))
-          + ")";
+      return _base + "(" + _parameters.stream().map(p -> p.toString()).collect(Collectors.joining(",")) + ")";
     } else {
       return _base + "("
           + IntStream.range(0, _parameterNames.size()).boxed()
-          .map(i -> _parameterNames.get(i) + " " + _parameters.get(i).toString())
-          .collect(Collectors.joining(","))
+              .map(i -> _parameterNames.get(i) + " " + _parameters.get(i).toString()).collect(Collectors.joining(","))
           + ")";
     }
   }

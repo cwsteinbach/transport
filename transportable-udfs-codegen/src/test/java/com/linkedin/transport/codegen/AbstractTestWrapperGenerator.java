@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -50,15 +50,14 @@ public abstract class AbstractTestWrapperGenerator {
 
   void testWrapperGenerator(String udfMetadataFileResource, String expectedSourcesOutputFolderResource,
       String expectedResourcesOutputFolderResource) {
-    WrapperGeneratorContext context =
-        new WrapperGeneratorContext(TestUtils.getUDFMetadataFromResource(udfMetadataFileResource),
-            _sourcesOutputDir, _resourcesOutputDir);
+    WrapperGeneratorContext context = new WrapperGeneratorContext(
+        TestUtils.getUDFMetadataFromResource(udfMetadataFileResource), _sourcesOutputDir, _resourcesOutputDir);
 
     getWrapperGenerator().generateWrappers(context);
 
     try {
-      Path expectedSourcesOutputPath = Paths.get(
-          Thread.currentThread().getContextClassLoader().getResource(expectedSourcesOutputFolderResource).toURI());
+      Path expectedSourcesOutputPath = Paths
+          .get(Thread.currentThread().getContextClassLoader().getResource(expectedSourcesOutputFolderResource).toURI());
       TestUtils.assertDirectoriesAreEqual(_sourcesOutputDir.toPath(), expectedSourcesOutputPath);
       if (expectedResourcesOutputFolderResource != null) {
         Path expectedResourcesOutputPath = Paths.get(

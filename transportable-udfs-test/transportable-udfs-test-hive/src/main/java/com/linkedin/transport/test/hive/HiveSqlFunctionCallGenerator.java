@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -15,10 +15,11 @@ public class HiveSqlFunctionCallGenerator implements SqlFunctionCallGenerator {
 
   @Override
   public String getMapArgumentString(Map<Object, Object> map, TestType mapKeyType, TestType mapValueType) {
-    return "map_from_entries(ARRAY(" + map.entrySet()
-        .stream()
-        .map(entry -> "STRUCT(" + getFunctionCallArgumentString(entry.getKey(), mapKeyType) + ", "
-            + getFunctionCallArgumentString(entry.getValue(), mapValueType) + ")")
-        .collect(Collectors.joining(", ")) + "))";
+    return "map_from_entries(ARRAY("
+        + map.entrySet().stream()
+            .map(entry -> "STRUCT(" + getFunctionCallArgumentString(entry.getKey(), mapKeyType) + ", "
+                + getFunctionCallArgumentString(entry.getValue(), mapValueType) + ")")
+            .collect(Collectors.joining(", "))
+        + "))";
   }
 }

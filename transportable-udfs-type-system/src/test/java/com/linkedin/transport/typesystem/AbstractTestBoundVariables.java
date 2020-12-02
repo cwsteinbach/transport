@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -50,8 +50,8 @@ public abstract class AbstractTestBoundVariables<T> {
 
     boolean bindingSuccess = true;
     for (int i = 0; i < inputTypeSignatures.size(); i++) {
-      bindingSuccess = bindingSuccess
-          && boundVariables.bind(TypeSignature.parse(inputTypeSignatures.get(i)), inputTypes.get(i));
+      bindingSuccess =
+          bindingSuccess && boundVariables.bind(TypeSignature.parse(inputTypeSignatures.get(i)), inputTypes.get(i));
     }
 
     if (expectedBindings != null) {
@@ -68,157 +68,45 @@ public abstract class AbstractTestBoundVariables<T> {
 
   @Test
   public void testBoundVariables1() {
-    assertBoundVariables(
-        ImmutableList.of(
-            "map(K,V)",
-            "K"
-        ),
-        ImmutableList.of(
-            map(STRING, BOOLEAN),
-            STRING
-        ),
-        ImmutableMap.of(
-            "K", STRING,
-            "V", BOOLEAN
-        )
-    );
+    assertBoundVariables(ImmutableList.of("map(K,V)", "K"), ImmutableList.of(map(STRING, BOOLEAN), STRING),
+        ImmutableMap.of("K", STRING, "V", BOOLEAN));
   }
 
   @Test
   public void testBoundVariables2() {
-    assertBoundVariables(
-        ImmutableList.of(
-            "map(K,array(V))",
-            "K"
-        ),
-        ImmutableList.of(
-            map(STRING, array(array(struct(BOOLEAN, STRING, FLOAT, DOUBLE, BINARY)))),
-            STRING
-        ),
-        ImmutableMap.of(
-            "K", STRING,
-            "V", array(struct(BOOLEAN, STRING, FLOAT, DOUBLE, BINARY))
-        )
-    );
+    assertBoundVariables(ImmutableList.of("map(K,array(V))", "K"),
+        ImmutableList.of(map(STRING, array(array(struct(BOOLEAN, STRING, FLOAT, DOUBLE, BINARY)))), STRING),
+        ImmutableMap.of("K", STRING, "V", array(struct(BOOLEAN, STRING, FLOAT, DOUBLE, BINARY))));
   }
 
   @Test
   public void testBoundVariablesVoids() {
     // An unknown type can bind to any type signature (concrete or generic) / (primitive or complex)
-    assertBoundVariables(
-        ImmutableList.of(
-            "K",
-            "string",
-            "array(A)",
-            "row(B,C,D)"
-        ),
-        ImmutableList.of(
-            NULL,
-            NULL,
-            NULL,
-            NULL
-        ),
-        ImmutableMap.of(
-            "A", NULL,
-            "B", NULL,
-            "C", NULL,
-            "D", NULL,
-            "K", NULL
-        )
-    );
-    assertBoundVariables(
-        ImmutableList.of(
-            "map(A,B)",
-            "map(C,D)"
-        ),
-        ImmutableList.of(
-            NULL,
-            map(STRING, NULL)
-        ),
-        ImmutableMap.of(
-            "A", NULL,
-            "B", NULL,
-            "C", STRING,
-            "D", NULL
-        )
-    );
+    assertBoundVariables(ImmutableList.of("K", "string", "array(A)", "row(B,C,D)"),
+        ImmutableList.of(NULL, NULL, NULL, NULL),
+        ImmutableMap.of("A", NULL, "B", NULL, "C", NULL, "D", NULL, "K", NULL));
+    assertBoundVariables(ImmutableList.of("map(A,B)", "map(C,D)"), ImmutableList.of(NULL, map(STRING, NULL)),
+        ImmutableMap.of("A", NULL, "B", NULL, "C", STRING, "D", NULL));
 
     // An unknown type bound to a generic type can be overridden by other OIs
-    assertBoundVariables(
-        ImmutableList.of(
-            "map(K, V)",
-            "row(V)"
-        ),
-        ImmutableList.of(
-            map(STRING, NULL),
-            struct(STRING)
-        ),
-        ImmutableMap.of(
-            "K", STRING,
-            "V", STRING
-        )
-    );
+    assertBoundVariables(ImmutableList.of("map(K, V)", "row(V)"), ImmutableList.of(map(STRING, NULL), struct(STRING)),
+        ImmutableMap.of("K", STRING, "V", STRING));
 
     // An unknown type should not override any existing binding
-    assertBoundVariables(
-        ImmutableList.of(
-            "map(K, V)",
-            "row(V)",
-            "array(V)"
-        ),
-        ImmutableList.of(
-            map(STRING, NULL),
-            struct(STRING),
-            array(NULL)
-        ),
-        ImmutableMap.of(
-            "K", STRING,
-            "V", STRING
-        )
-    );
-    assertBoundVariables(
-        ImmutableList.of(
-            "map(K, V)",
-            "row(V)",
-            "array(V)"
-        ),
-        ImmutableList.of(
-            map(STRING, NULL),
-            struct(STRING),
-            NULL
-        ),
-        ImmutableMap.of(
-            "K", STRING,
-            "V", STRING
-        )
-    );
+    assertBoundVariables(ImmutableList.of("map(K, V)", "row(V)", "array(V)"),
+        ImmutableList.of(map(STRING, NULL), struct(STRING), array(NULL)), ImmutableMap.of("K", STRING, "V", STRING));
+    assertBoundVariables(ImmutableList.of("map(K, V)", "row(V)", "array(V)"),
+        ImmutableList.of(map(STRING, NULL), struct(STRING), NULL), ImmutableMap.of("K", STRING, "V", STRING));
   }
 
   @Test
   public void testBoundVariableFailure1() {
-    assertBoundVariables(
-        ImmutableList.of(
-            "map(K, V)"
-        ),
-        ImmutableList.of(
-            array(LONG)
-        ),
-        null
-    );
+    assertBoundVariables(ImmutableList.of("map(K, V)"), ImmutableList.of(array(LONG)), null);
   }
 
   @Test
   public void testBoundVariableFailure2() {
-    assertBoundVariables(
-        ImmutableList.of(
-            "map(K, V)",
-            "map(K, V)"
-        ),
-        ImmutableList.of(
-            map(STRING, INTEGER),
-            map(STRING, BOOLEAN)
-        ),
-        null
-    );
+    assertBoundVariables(ImmutableList.of("map(K, V)", "map(K, V)"),
+        ImmutableList.of(map(STRING, INTEGER), map(STRING, BOOLEAN)), null);
   }
 }

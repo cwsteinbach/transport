@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -186,10 +186,12 @@ public class GenericStdUDFWrapper {
         requiredFiles = ((StdUDF6) _stdUdf).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5]);
         break;
       case 7:
-        requiredFiles = ((StdUDF7) _stdUdf).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+        requiredFiles =
+            ((StdUDF7) _stdUdf).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
         break;
       case 8:
-        requiredFiles = ((StdUDF8) _stdUdf).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+        requiredFiles = ((StdUDF8) _stdUdf).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5],
+            args[6], args[7]);
         break;
       default:
         throw new UnsupportedOperationException("getRequiredFiles not yet supported for StdUDF" + args.length);
@@ -208,8 +210,7 @@ public class GenericStdUDFWrapper {
   private synchronized void processRequiredFiles(String[] requiredFiles) {
     if (!_requiredFilesProcessed) {
       _stdUdf.processRequiredFiles(Arrays.stream(requiredFiles)
-          .map(path -> Path.getPathWithoutSchemeAndAuthority(new Path(path)).toString())
-          .toArray(String[]::new));
+          .map(path -> Path.getPathWithoutSchemeAndAuthority(new Path(path)).toString()).toArray(String[]::new));
       _requiredFilesProcessed = true;
     }
   }

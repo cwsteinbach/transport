@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -54,32 +54,26 @@ import static io.prestosql.metadata.SignatureBinder.*;
 import static io.prestosql.operator.TypeSignatureParser.parseTypeSignature;
 import static io.prestosql.util.Reflection.*;
 
+
 // Suppressing argument naming convention for the evalInternal methods
-@SuppressWarnings({"checkstyle:regexpsinglelinejava"})
+@SuppressWarnings({ "checkstyle:regexpsinglelinejava" })
 public abstract class StdUdfWrapper extends SqlScalarFunction {
 
   private static final int DEFAULT_REFRESH_INTERVAL_DAYS = 1;
-  private static final int JITTER_FACTOR = 50;  // to calculate jitter from delay
+  private static final int JITTER_FACTOR = 50; // to calculate jitter from delay
 
   protected StdUdfWrapper(StdUDF stdUDF) {
     super(new FunctionMetadata(
-            new Signature(
-                    ((TopLevelStdUDF) stdUDF).getFunctionName(),
-                    getTypeVariableConstraintsForStdUdf(stdUDF),
-                    ImmutableList.of(),
-                    parseTypeSignature(stdUDF.getOutputParameterSignature(), ImmutableSet.of()),
-                    stdUDF.getInputParameterSignatures().stream()
-                            .map(typeSignature -> parseTypeSignature(typeSignature, ImmutableSet.of()))
-                            .collect(Collectors.toList()),
-                    false),
-            true,
-            Booleans.asList(stdUDF.getNullableArguments()).stream()
-                    .map(FunctionArgumentDefinition::new)
-                    .collect(Collectors.toList()),
-            false,
-            false,
-            ((TopLevelStdUDF) stdUDF).getFunctionDescription(),
-            FunctionKind.SCALAR));
+        new Signature(((TopLevelStdUDF) stdUDF).getFunctionName(), getTypeVariableConstraintsForStdUdf(stdUDF),
+            ImmutableList.of(), parseTypeSignature(stdUDF.getOutputParameterSignature(), ImmutableSet.of()),
+            stdUDF.getInputParameterSignatures().stream()
+                .map(typeSignature -> parseTypeSignature(typeSignature, ImmutableSet.of()))
+                .collect(Collectors.toList()),
+            false),
+        true,
+        Booleans.asList(stdUDF.getNullableArguments()).stream().map(FunctionArgumentDefinition::new)
+            .collect(Collectors.toList()),
+        false, false, ((TopLevelStdUDF) stdUDF).getFunctionDescription(), FunctionKind.SCALAR));
   }
 
   @VisibleForTesting
@@ -106,8 +100,8 @@ public abstract class StdUdfWrapper extends SqlScalarFunction {
     // while ensuring subsequent calls do not happen at the same time across workers
     long initialJitter = getRefreshIntervalMillis() / JITTER_FACTOR;
     int initialJitterInt = initialJitter > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) initialJitter;
-    AtomicLong requiredFilesNextRefreshTime = new AtomicLong(System.currentTimeMillis()
-        - (new Random()).nextInt(initialJitterInt));
+    AtomicLong requiredFilesNextRefreshTime =
+        new AtomicLong(System.currentTimeMillis() - (new Random()).nextInt(initialJitterInt));
     boolean[] nullableArguments = stdUDF.getAndCheckNullableArguments();
 
     return new ScalarFunctionImplementation(true, getNullConventionForArguments(nullableArguments),
@@ -131,8 +125,8 @@ public abstract class StdUdfWrapper extends SqlScalarFunction {
 
     // Specific MethodHandle required by presto where argument types map to the type signature
     MethodHandle specificMethodHandle = MethodHandles.explicitCastArguments(genericMethodHandle, specificMethodType);
-    return MethodHandles.insertArguments(specificMethodHandle, 0, stdUDF, inputTypes,
-        outputType instanceof IntegerType, requiredFilesNextRefreshTime);
+    return MethodHandles.insertArguments(specificMethodHandle, 0, stdUDF, inputTypes, outputType instanceof IntegerType,
+        requiredFilesNextRefreshTime);
   }
 
   private List<ScalarFunctionImplementation.ArgumentProperty> getNullConventionForArguments(
@@ -229,12 +223,12 @@ public abstract class StdUdfWrapper extends SqlScalarFunction {
         requiredFiles = ((StdUDF6) stdUDF).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5]);
         break;
       case 7:
-        requiredFiles = ((StdUDF7) stdUDF).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5],
-            args[6]);
+        requiredFiles =
+            ((StdUDF7) stdUDF).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
         break;
       case 8:
-        requiredFiles = ((StdUDF8) stdUDF).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5],
-            args[6], args[7]);
+        requiredFiles =
+            ((StdUDF8) stdUDF).getRequiredFiles(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
         break;
       default:
         throw new RuntimeException("getRequiredFiles not supported yet for StdUDF" + args.length);
@@ -274,7 +268,8 @@ public abstract class StdUdfWrapper extends SqlScalarFunction {
   }
 
   private Type getPrestoType(String parameterSignature, Metadata metadata, BoundVariables boundVariables) {
-    return metadata.getType(applyBoundVariables(parseTypeSignature(parameterSignature, ImmutableSet.of()), boundVariables));
+    return metadata
+        .getType(applyBoundVariables(parseTypeSignature(parameterSignature, ImmutableSet.of()), boundVariables));
   }
 
   private Class<?>[] getMethodHandleArgumentTypes(Type[] argTypes, boolean[] nullableArguments,

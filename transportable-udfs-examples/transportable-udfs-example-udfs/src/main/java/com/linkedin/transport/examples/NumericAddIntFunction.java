@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -11,8 +11,7 @@ import com.linkedin.transport.api.udf.StdUDF2;
 import java.util.List;
 
 
-public class NumericAddIntFunction extends StdUDF2<StdInteger, StdInteger, StdInteger>
-    implements NumericAddFunction {
+public class NumericAddIntFunction extends StdUDF2<StdInteger, StdInteger, StdInteger> implements NumericAddFunction {
   @Override
   public StdInteger eval(StdInteger first, StdInteger second) {
     return getStdFactory().createInteger(first.get() + second.get());

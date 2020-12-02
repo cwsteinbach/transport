@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -99,8 +99,7 @@ public class HiveFactory implements StdFactory {
   @Override
   public StdArray createArray(StdType stdType, int expectedSize) {
     ListObjectInspector listObjectInspector = (ListObjectInspector) stdType.underlyingType();
-    return new HiveArray(
-        new ArrayList(expectedSize),
+    return new HiveArray(new ArrayList(expectedSize),
         ObjectInspectorFactory.getStandardListObjectInspector(listObjectInspector.getListElementObjectInspector()),
         this);
   }
@@ -113,22 +112,15 @@ public class HiveFactory implements StdFactory {
   @Override
   public StdMap createMap(StdType stdType) {
     MapObjectInspector mapObjectInspector = (MapObjectInspector) stdType.underlyingType();
-    return new HiveMap(
-        new HashMap(),
-        ObjectInspectorFactory.getStandardMapObjectInspector(
-            mapObjectInspector.getMapKeyObjectInspector(),
-            mapObjectInspector.getMapValueObjectInspector()),
-        this);
+    return new HiveMap(new HashMap(), ObjectInspectorFactory.getStandardMapObjectInspector(
+        mapObjectInspector.getMapKeyObjectInspector(), mapObjectInspector.getMapValueObjectInspector()), this);
   }
 
   @Override
   public StdStruct createStruct(List<String> fieldNames, List<StdType> fieldTypes) {
-    return new HiveStruct(
-        new ArrayList(Arrays.asList(new Object[fieldTypes.size()])),
-        ObjectInspectorFactory.getStandardStructObjectInspector(
-            fieldNames,
-            fieldTypes.stream().map(f -> (ObjectInspector) f.underlyingType()).collect(Collectors.toList())
-        ),
+    return new HiveStruct(new ArrayList(Arrays.asList(new Object[fieldTypes.size()])),
+        ObjectInspectorFactory.getStandardStructObjectInspector(fieldNames,
+            fieldTypes.stream().map(f -> (ObjectInspector) f.underlyingType()).collect(Collectors.toList())),
         this);
   }
 
@@ -145,22 +137,16 @@ public class HiveFactory implements StdFactory {
     return new HiveStruct(
         new ArrayList(Arrays.asList(new Object[structObjectInspector.getAllStructFieldRefs().size()])),
         ObjectInspectorFactory.getStandardStructObjectInspector(
-            structObjectInspector.getAllStructFieldRefs()
-                .stream()
-                .map(f -> f.getFieldName())
+            structObjectInspector.getAllStructFieldRefs().stream().map(f -> f.getFieldName())
                 .collect(Collectors.toList()),
-            structObjectInspector.getAllStructFieldRefs()
-                .stream()
-                .map(f -> f.getFieldObjectInspector())
-                .collect(Collectors.toList())
-        ), this);
+            structObjectInspector.getAllStructFieldRefs().stream().map(f -> f.getFieldObjectInspector())
+                .collect(Collectors.toList())),
+        this);
   }
 
   @Override
   public StdType createStdType(String typeSignature) {
-    return HiveWrapper.createStdType(
-        _typeFactory.createType(TypeSignature.parse(typeSignature), _boundVariables)
-    );
+    return HiveWrapper.createStdType(_typeFactory.createType(TypeSignature.parse(typeSignature), _boundVariables));
   }
 
   public Converter getConverter(ObjectInspector inputOI, ObjectInspector outputOI) {

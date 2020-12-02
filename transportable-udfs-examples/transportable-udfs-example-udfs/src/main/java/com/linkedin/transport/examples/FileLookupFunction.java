@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -33,7 +33,7 @@ public class FileLookupFunction extends StdUDF2<StdString, StdInteger, StdBoolea
 
   @Override
   public boolean[] getNullableArguments() {
-    return new boolean[]{false, true};
+    return new boolean[] { false, true };
   }
 
   @Override
@@ -58,7 +58,7 @@ public class FileLookupFunction extends StdUDF2<StdString, StdInteger, StdBoolea
 
   @Override
   public String[] getRequiredFiles(StdString filename, StdInteger intToCheck) {
-    return new String[]{filename.get()};
+    return new String[] { filename.get() };
   }
 
   public void processRequiredFiles(String[] localPaths) {

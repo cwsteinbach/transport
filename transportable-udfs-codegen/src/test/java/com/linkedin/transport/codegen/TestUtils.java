@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -22,8 +22,8 @@ class TestUtils {
   }
 
   static TransportUDFMetadata getUDFMetadataFromResource(String resource) {
-    try (InputStreamReader reader = new InputStreamReader(
-        Thread.currentThread().getContextClassLoader().getResourceAsStream(resource))) {
+    try (InputStreamReader reader =
+        new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(resource))) {
       return TransportUDFMetadata.fromJson(reader);
     } catch (IOException e) {
       throw new RuntimeException("Could not read UDF metadata from resource: " + resource, e);
@@ -38,9 +38,8 @@ class TestUtils {
     Set<Path> expectedRelativeFilePaths = getRelativeFilePaths(expectedDir);
 
     // First check that the number and names of the files are the same
-    Assert.assertEquals(actualRelativeFilePaths, expectedRelativeFilePaths,
-        String.format("Either the number or names of files in the directories %s and %s are not equal", actualDir,
-            expectedDir));
+    Assert.assertEquals(actualRelativeFilePaths, expectedRelativeFilePaths, String.format(
+        "Either the number or names of files in the directories %s and %s are not equal", actualDir, expectedDir));
 
     // For every path in the expected directory, compare the contents of corresponding path in the actual directory.
     // We can be sure that there always exists a corresponding path in the actual directory since we have asserted that

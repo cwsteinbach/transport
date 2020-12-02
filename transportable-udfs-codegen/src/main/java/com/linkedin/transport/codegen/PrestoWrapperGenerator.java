@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -45,59 +45,48 @@ public class PrestoWrapperGenerator implements WrapperGenerator {
 
   private void generateWrapper(String implementationClass, File sourcesOutputDir, List<String> services) {
     ClassName implementationClassName = ClassName.bestGuess(implementationClass);
-    ClassName wrapperClassName =
-        ClassName.get(implementationClassName.packageName() + "." + PRESTO_PACKAGE_SUFFIX,
-            implementationClassName.simpleName());
+    ClassName wrapperClassName = ClassName.get(implementationClassName.packageName() + "." + PRESTO_PACKAGE_SUFFIX,
+        implementationClassName.simpleName());
 
     /*
       Generates constructor ->
-
+    
       public ${wrapperClassName}() {
         super(new ${implementationClassName}());
       }
      */
-    MethodSpec constructor = MethodSpec.constructorBuilder()
-        .addModifiers(Modifier.PUBLIC)
-        .addStatement("super(new $T())", implementationClassName)
-        .build();
+    MethodSpec constructor = MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC)
+        .addStatement("super(new $T())", implementationClassName).build();
 
     /*
       Generates ->
-
+    
       @Override
       protected StdUDF getStdUDF() {
         return new ${implementationClassName}();
       }
      */
-    MethodSpec getStdUDFMethod = MethodSpec.methodBuilder(GET_STD_UDF_METHOD)
-        .addAnnotation(Override.class)
-        .returns(StdUDF.class)
-        .addModifiers(Modifier.PROTECTED)
-        .addStatement("return new $T()", implementationClassName)
-        .build();
+    MethodSpec getStdUDFMethod =
+        MethodSpec.methodBuilder(GET_STD_UDF_METHOD).addAnnotation(Override.class).returns(StdUDF.class)
+            .addModifiers(Modifier.PROTECTED).addStatement("return new $T()", implementationClassName).build();
 
     /*
       Generates ->
-
+    
       public class ${wrapperClassName} extends StdUdfWrapper {
-
+    
         .
         .
         .
-
+    
       }
      */
-    TypeSpec wrapperClass = TypeSpec.classBuilder(wrapperClassName)
-        .addModifiers(Modifier.PUBLIC)
-        .superclass(PRESTO_STD_UDF_WRAPPER_CLASS_NAME)
-        .addMethod(constructor)
-        .addMethod(getStdUDFMethod)
-        .build();
+    TypeSpec wrapperClass = TypeSpec.classBuilder(wrapperClassName).addModifiers(Modifier.PUBLIC)
+        .superclass(PRESTO_STD_UDF_WRAPPER_CLASS_NAME).addMethod(constructor).addMethod(getStdUDFMethod).build();
 
     services.add(wrapperClassName.toString());
-    JavaFile javaFile = JavaFile.builder(wrapperClassName.packageName(), wrapperClass)
-        .skipJavaLangImports(true)
-        .build();
+    JavaFile javaFile =
+        JavaFile.builder(wrapperClassName.packageName(), wrapperClass).skipJavaLangImports(true).build();
 
     try {
       javaFile.writeTo(sourcesOutputDir);

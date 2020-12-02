@@ -5,23 +5,24 @@
 rootProject.name = 'transportable-udfs'
 
 def modules = [
-    'transportable-udfs-api',
-    'transportable-udfs-annotation-processor',
-    'transportable-udfs-avro',
-    'transportable-udfs-codegen',
-    'transportable-udfs-compile-utils',
-    'transportable-udfs-hive',
-    'transportable-udfs-plugin',
-    'transportable-udfs-presto',
-    'transportable-udfs-spark',
-    'transportable-udfs-test:transportable-udfs-test-api',
-    'transportable-udfs-test:transportable-udfs-test-generic',
-    'transportable-udfs-test:transportable-udfs-test-hive',
-    'transportable-udfs-test:transportable-udfs-test-presto',
-    'transportable-udfs-test:transportable-udfs-test-spark',
-    'transportable-udfs-test:transportable-udfs-test-spi',
-    'transportable-udfs-type-system',
-    'transportable-udfs-utils'
+  'transportable-udfs-api',
+  'transportable-udfs-annotation-processor',
+  'transportable-udfs-avro',
+  'transportable-udfs-codegen',
+  'transportable-udfs-compile-utils',
+  'transportable-udfs-hive',
+  'transportable-udfs-plugin',
+  'transportable-udfs-presto',
+  'transportable-udfs-spark',
+  'transportable-udfs-test:transportable-udfs-test-api',
+  'transportable-udfs-test:transportable-udfs-test-generic',
+  'transportable-udfs-test:transportable-udfs-test-hive',
+  'transportable-udfs-test:transportable-udfs-test-presto',
+  'transportable-udfs-test:transportable-udfs-test-spark',
+  'transportable-udfs-test:transportable-udfs-test-spi',
+  'transportable-udfs-type-system',
+  'transportable-udfs-utils',
+  'docs'
 ]
 
 modules.each { module ->

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -47,8 +47,8 @@ public class TestBinaryDuplicateFunction extends AbstractStdUDFTest {
   @Test
   public void testBinaryDuplicate() {
     StdTester tester = getTester();
-    testBinaryDuplicateHelper(tester, new byte[] {1, 2, 3}, new byte[] {1, 2, 3, 1, 2, 3});
-    testBinaryDuplicateHelper(tester, new byte[] {-1, -2, -3}, new byte[] {-1, -2, -3, -1, -2, -3});
+    testBinaryDuplicateHelper(tester, new byte[] { 1, 2, 3 }, new byte[] { 1, 2, 3, 1, 2, 3 });
+    testBinaryDuplicateHelper(tester, new byte[] { -1, -2, -3 }, new byte[] { -1, -2, -3, -1, -2, -3 });
   }
 
   private void testBinaryDuplicateHelper(StdTester tester, byte[] input, byte[] expectedOutput) {

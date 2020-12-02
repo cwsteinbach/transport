@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 LinkedIn Corporation. All rights reserved.
+ * Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -47,8 +47,8 @@ import javax.tools.StandardLocation;
  * is only one overriding of {@link TopLevelStdUDF} methods in its type hierarchy. If the checks are successful, it will
  * create groupings of UDFs which are considered to be overloadings of each other and store them in the resource file.
  */
-@SupportedOptions({"debug"})
-@SupportedAnnotationTypes({"*"})
+@SupportedOptions({ "debug" })
+@SupportedAnnotationTypes({ "*" })
 public class TransportProcessor extends AbstractProcessor {
 
   private Types _types;
@@ -121,14 +121,12 @@ public class TransportProcessor extends AbstractProcessor {
       error(Constants.INTERFACE_NOT_IMPLEMENTED_ERROR, udfClassElement);
     } else if (elementsOverridingTopLevelStdUDFMethods.size() > 1) {
       error(
-          String.format("Multiple overridings of %s methods found in %s. %s",
-              TopLevelStdUDF.class.getSimpleName(),
-              elementsOverridingTopLevelStdUDFMethods.stream()
-                  .map(TypeElement::getQualifiedName)
-                  .collect(Collectors.joining(", ")),
-              Constants.MORE_THAN_ONE_TYPE_OVERRIDING_ERROR),
-          udfClassElement
-      );
+          String
+              .format("Multiple overridings of %s methods found in %s. %s", TopLevelStdUDF.class.getSimpleName(),
+                  elementsOverridingTopLevelStdUDFMethods.stream().map(TypeElement::getQualifiedName)
+                      .collect(Collectors.joining(", ")),
+                  Constants.MORE_THAN_ONE_TYPE_OVERRIDING_ERROR),
+          udfClassElement);
     } else {
       String topLevelStdUdfClassName =
           elementsOverridingTopLevelStdUDFMethods.iterator().next().getQualifiedName().toString();
@@ -149,10 +147,8 @@ public class TransportProcessor extends AbstractProcessor {
    * Finds all elements in the type hierarchy of a {@link TypeElement} which override {@link TopLevelStdUDF} methods
    */
   private Set<TypeElement> getElementsOverridingTopLevelStdUDFMethods(TypeElement typeElement) {
-    return getAllTypesInHierarchy(typeElement.asType())
-        .map(typeMirror -> (TypeElement) _types.asElement(typeMirror))
-        .filter(this::typeElementOverridesTopLevelStdUDFMethods)
-        .collect(Collectors.toSet());
+    return getAllTypesInHierarchy(typeElement.asType()).map(typeMirror -> (TypeElement) _types.asElement(typeMirror))
+        .filter(this::typeElementOverridesTopLevelStdUDFMethods).collect(Collectors.toSet());
   }
 
   /**
@@ -161,20 +157,16 @@ public class TransportProcessor extends AbstractProcessor {
   private boolean typeElementOverridesTopLevelStdUDFMethods(TypeElement typeElement) {
 
     Map<String, ExecutableElement> topLevelStdUDFMethods =
-        ElementFilter.methodsIn(_types.asElement(_topLevelStdUDFInterfaceType).getEnclosedElements())
-            .stream()
+        ElementFilter.methodsIn(_types.asElement(_topLevelStdUDFInterfaceType).getEnclosedElements()).stream()
             .collect(Collectors.toMap(e -> e.getSimpleName().toString(), Function.identity()));
 
     // Check if any method defined in TopLevelStdUDF is being overriden in this class/interface
     // For simplicity we assume function names in TopLevelStdUDF are distinct
-    return ElementFilter.methodsIn(typeElement.getEnclosedElements())
-        .stream()
-        .anyMatch(method -> {
-          ExecutableElement matchingMethodFromTopLevelStdUDF =
-              topLevelStdUDFMethods.get(method.getSimpleName().toString());
-          return matchingMethodFromTopLevelStdUDF != null
-              && _elements.overrides(method, matchingMethodFromTopLevelStdUDF, typeElement);
-        });
+    return ElementFilter.methodsIn(typeElement.getEnclosedElements()).stream().anyMatch(method -> {
+      ExecutableElement matchingMethodFromTopLevelStdUDF = topLevelStdUDFMethods.get(method.getSimpleName().toString());
+      return matchingMethodFromTopLevelStdUDF != null
+          && _elements.overrides(method, matchingMethodFromTopLevelStdUDF, typeElement);
+    });
   }
 
   /**

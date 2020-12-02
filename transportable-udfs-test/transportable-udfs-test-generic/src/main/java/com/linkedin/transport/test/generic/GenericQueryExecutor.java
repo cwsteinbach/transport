@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -65,15 +65,10 @@ class GenericQueryExecutor {
   private Pair<TestType, Object> resolveParameter(Object argument, TestType argumentType) {
     if (argument instanceof FunctionCall) {
       return resolveFunctionCall((FunctionCall) argument);
-    } else if (argument == null
-        || argumentType instanceof UnknownTestType
-        || argumentType instanceof IntegerTestType
-        || argumentType instanceof LongTestType
-        || argumentType instanceof BooleanTestType
-        || argumentType instanceof StringTestType
-        || argumentType instanceof FloatTestType
-        || argumentType instanceof DoubleTestType
-        || argumentType instanceof BinaryTestType) {
+    } else if (argument == null || argumentType instanceof UnknownTestType || argumentType instanceof IntegerTestType
+        || argumentType instanceof LongTestType || argumentType instanceof BooleanTestType
+        || argumentType instanceof StringTestType || argumentType instanceof FloatTestType
+        || argumentType instanceof DoubleTestType || argumentType instanceof BinaryTestType) {
       return Pair.of(argumentType, argument);
     } else if (argumentType instanceof ArrayTestType) {
       return resolveArray((List<Object>) argument, ((ArrayTestType) argumentType).getElementType());

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -13,7 +13,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 
-public class BinaryDuplicateFunction extends StdUDF1<StdBinary, StdBinary> implements TopLevelStdUDF  {
+public class BinaryDuplicateFunction extends StdUDF1<StdBinary, StdBinary> implements TopLevelStdUDF {
   @Override
   public StdBinary eval(StdBinary binaryObject) {
     ByteBuffer byteBuffer = binaryObject.get();

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -190,13 +190,10 @@ public abstract class AbstractBoundVariables<T> {
           TypeSignature keyTypeSignature = typeSignature.getParameters().get(0);
           TypeSignature valueTypeSignature = typeSignature.getParameters().get(1);
           if (isMapType(dataType)) {
-            return
-                bind(keyTypeSignature, getMapKeyType(dataType))
-                    && bind(valueTypeSignature, getMapValueType(dataType));
+            return bind(keyTypeSignature, getMapKeyType(dataType))
+                && bind(valueTypeSignature, getMapValueType(dataType));
           } else if (isUnknownType(dataType)) {
-            return
-                bind(keyTypeSignature, dataType)
-                    && bind(valueTypeSignature, dataType);
+            return bind(keyTypeSignature, dataType) && bind(valueTypeSignature, dataType);
           } else {
             return false;
           }
@@ -208,10 +205,7 @@ public abstract class AbstractBoundVariables<T> {
           int i = 0;
           boolean bindingSuccess = true;
           for (TypeSignature parameter : parameters) {
-            bindingSuccess = bindingSuccess && bind(
-                parameter,
-                getStructFieldTypes(dataType).get(i++)
-            );
+            bindingSuccess = bindingSuccess && bind(parameter, getStructFieldTypes(dataType).get(i++));
           }
           return bindingSuccess;
         } else if (isUnknownType(dataType)) {

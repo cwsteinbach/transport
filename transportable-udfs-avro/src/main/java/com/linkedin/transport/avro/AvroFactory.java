@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -104,9 +104,8 @@ public class AvroFactory implements StdFactory {
   @Override
   public StdStruct createStruct(List<String> fieldNames, List<StdType> fieldTypes) {
     if (fieldNames.size() != fieldTypes.size()) {
-      throw new RuntimeException(
-          "Field names and types are of different lengths: " + "Field names length is " + fieldNames.size() + ". "
-              + "Field types length is: " + fieldTypes.size());
+      throw new RuntimeException("Field names and types are of different lengths: " + "Field names length is "
+          + fieldNames.size() + ". " + "Field types length is: " + fieldTypes.size());
     }
     List<Field> fields = new ArrayList<>();
     for (int i = 0; i < fieldTypes.size(); i++) {

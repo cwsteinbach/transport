@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 LinkedIn Corporation. All rights reserved.
+ * Copyright 2018-2020 LinkedIn Corporation. All rights reserved.
  * Licensed under the BSD-2 Clause license.
  * See LICENSE in the project root for license information.
  */
@@ -35,10 +35,12 @@ public interface SqlFunctionCallGenerator {
    * Returns SQL function call string of the format {@code functionName(argument1, argument2, argument3, ...)}
    */
   default String getSqlFunctionCallString(FunctionCall functionCall) {
-    return functionCall.getFunctionName() + "(" + IntStream.range(0, functionCall.getParameters().size())
-        .mapToObj(idx -> getFunctionCallArgumentString(functionCall.getParameters().get(idx),
-            functionCall.getInferredParameterTypes().get(idx)))
-        .collect(Collectors.joining(", ")) + ")";
+    return functionCall.getFunctionName() + "("
+        + IntStream.range(0, functionCall.getParameters().size())
+            .mapToObj(idx -> getFunctionCallArgumentString(functionCall.getParameters().get(idx),
+                functionCall.getInferredParameterTypes().get(idx)))
+            .collect(Collectors.joining(", "))
+        + ")";
   }
 
   /**
@@ -98,7 +100,7 @@ public interface SqlFunctionCallGenerator {
   }
 
   default String getDoubleArgumentString(Double value) {
-    return  "CAST(" + value + " AS double)";
+    return "CAST(" + value + " AS double)";
   }
 
   default String getFloatArgumentString(Float value) {
@@ -114,8 +116,7 @@ public interface SqlFunctionCallGenerator {
    * Returns a SQL string of the format {@code ARRAY(ele1, ele2, ele3, ...)} representing an array literal
    */
   default String getArrayArgumentString(List<Object> array, TestType arrayElementType) {
-    return "ARRAY" + "(" + array.stream()
-        .map(element -> getFunctionCallArgumentString(element, arrayElementType))
+    return "ARRAY" + "(" + array.stream().map(element -> getFunctionCallArgumentString(element, arrayElementType))
         .collect(Collectors.joining(", ")) + ")";
   }
 
@@ -123,11 +124,12 @@ public interface SqlFunctionCallGenerator {
    * Returns a SQL string of the format {@code MAP((k1, v1), (k2, v2), (k3, v3), ...)} representing a map literal
    */
   default String getMapArgumentString(Map<Object, Object> map, TestType mapKeyType, TestType mapValueType) {
-    return "MAP" + "(" + map.entrySet()
-        .stream()
-        .map(entry -> "(" + getFunctionCallArgumentString(entry.getKey(), mapKeyType) + ", "
-            + getFunctionCallArgumentString(entry.getValue(), mapValueType) + ")")
-        .collect(Collectors.joining(", ")) + ")";
+    return "MAP" + "("
+        + map.entrySet().stream()
+            .map(entry -> "(" + getFunctionCallArgumentString(entry.getKey(), mapKeyType) + ", "
+                + getFunctionCallArgumentString(entry.getValue(), mapValueType) + ")")
+            .collect(Collectors.joining(", "))
+        + ")";
   }
 
   /**
@@ -135,8 +137,10 @@ public interface SqlFunctionCallGenerator {
    */
   default String getStructArgumentString(Row struct, List<TestType> structFieldTypes) {
     List<Object> structFields = struct.getFields();
-    return "STRUCT" + "(" + IntStream.range(0, structFields.size())
-        .mapToObj(idx -> getFunctionCallArgumentString(structFields.get(idx), structFieldTypes.get(idx)))
-        .collect(Collectors.joining(", ")) + ")";
+    return "STRUCT" + "("
+        + IntStream.range(0, structFields.size())
+            .mapToObj(idx -> getFunctionCallArgumentString(structFields.get(idx), structFieldTypes.get(idx)))
+            .collect(Collectors.joining(", "))
+        + ")";
   }
 }

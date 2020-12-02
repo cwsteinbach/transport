@@ -1,82 +1,73 @@
-// Copyright 2019 LinkedIn Corporation. All rights reserved.
+// Copyright 2019-2020 LinkedIn Corporation. All rights reserved.
 // Licensed under the BSD-2 Clause license.
 // See LICENSE in the project root for license information.
 
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-    classpath 'org.github.ngbinh.scalastyle:gradle-scalastyle-plugin_2.11:1.0.1'
-    classpath 'gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0'
-  }
+plugins {
+  id "com.diffplug.spotless" version "5.8.2"
+  id 'com.github.johnrengelman.shadow' version '2.0.4'
+  id "org.shipkit.java" version "2.3.4"
 }
-
 
 allprojects {
   group = 'com.linkedin.transport'
+  apply plugin: 'com.diffplug.spotless'
   apply plugin: 'idea'
+  apply plugin: 'eclipse'
+
+  spotless {
+    enforceCheck true
+    groovyGradle {
+      target '**/*.gradle'
+      greclipse().configFile("${rootDir}/../docs/codestyle-eclipse.xml")
+    }
+    format 'markdown', {
+      target '**/*.md'
+      prettier()
+    }
+  }
 }
 
 subprojects {
+  project.ext.setProperty('presto-version', '333')
+  project.ext.setProperty('airlift-slice-version', '0.38')
+  project.ext.setProperty('spark-group', 'org.apache.spark')
+  project.ext.setProperty('spark-version', '2.3.0')
+
   buildscript {
     repositories {
       mavenCentral()
       jcenter()
     }
   }
+
   repositories {
     mavenCentral()
     maven {
       url "https://conjars.org/repo"
     }
   }
-  project.ext.setProperty('presto-version', '333')
-  project.ext.setProperty('airlift-slice-version', '0.38')
-  project.ext.setProperty('spark-group', 'org.apache.spark')
-  project.ext.setProperty('spark-version', '2.3.0')
-}
-
-subprojects {
-  apply plugin: "com.github.hierynomus.license"
-
-  license {
-    header = file("${rootDir}/../gradle/license/LICENSE_HEADER")
-    ext.year = Calendar.getInstance().get(Calendar.YEAR)
-    skipExistingHeaders true
-    ignoreFailures false
-    strictCheck true
-  }
 
   plugins.withType(JavaPlugin) {
-    project.apply(plugin: 'checkstyle')
-
     dependencies {
       testCompile 'org.testng:testng:6.11'
     }
-
     test {
       useTestNG()
     }
-
-    checkstyle {
-      configFile = file("${rootDir}/../gradle/checkstyle/checkstyle.xml")
-      configProperties = ['config_loc' : "${rootDir}/../gradle/checkstyle/"]
-      toolVersion '8.23'
+    spotless {
+      java {
+        eclipse().configFile("${rootDir}/../docs/codestyle-eclipse.xml")
+        licenseHeaderFile file("${rootDir}/../gradle/license/LICENSE_HEADER")
+      }
     }
   }
 
   plugins.withType(ScalaPlugin) {
-    project.apply(plugin: 'scalaStyle')
-
-    scalaStyle {
-      configLocation = "${rootDir}/../gradle/scalastyle/scalastyle-config.xml"
-      source = sourceSets.main.allScala
-      testSource = sourceSets.test.allScala
-      includeTestSourceDirectory = true
+    spotless {
+      scala {
+        scalafmt()
+        licenseHeaderFile file("${rootDir}/../gradle/license/LICENSE_HEADER"), 'package'
+      }
     }
-    check.dependsOn scalaStyle
   }
 }
